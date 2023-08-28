@@ -46,3 +46,52 @@ society/employers/clients/colleagues/subordinates/profession/self
 1. correct the problem
 1. whistle blowing
 1. resign in protest
+
+## definition of artificial intelligence
+
+- humanly → acting
+- ration → math/theory
+
+### Turing test
+
+- NLP
+- knowledge representation
+- automated reasoning
+- ML
+
+#### total Turing test
+
+perceptional abilities
+
+- computer vision
+- robotics
+
+### thinking humanly
+
+- get inside the working of human mind
+- general problem solver
+- cognitive science
+
+### thinking rationally
+
+- correctness
+- logic
+- fact-check
+
+### knowledge-based system
+
+- general-purpose search
+- domain-specific knowledge
+- knowledge bottleneck
+
+## example application
+
+### collaborative perception
+
+- share raw data → huge overhead
+- extract feature
+- share object position
+
+### anomaly detection
+
+- bidirectional optimization
