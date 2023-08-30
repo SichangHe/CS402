@@ -84,6 +84,56 @@ perceptional abilities
 - domain-specific knowledge
 - knowledge bottleneck
 
+## intelligent agent
+
+### rational agent
+
+1. prior knowledge of environment
+1. performable action
+1. performance measurement
+1. perception
+
+### task environment
+
+PEAS: performance measurement, environment, actuators, sensors
+
+properties
+
+1. fully/partially observable
+1. single/multiple agent
+1. deterministic/stochastic
+1. episodic/sequential
+1. static/dynamic
+1. known/unknown
+
+### agent structure
+
+- function: perception → action
+- architecture: sensory → actuator
+
+#### table-driven structure
+
+
+$$
+n_{entry}=\sum_{t=1}^T|P|^T
+$$
+
+- simplest
+- e.g. industrial robot
+- #cases explode
+
+#### simple reflex agent
+
+match input against rule, return action
+
+- model-based: only work for fully observable
+- goal-based
+- utility-based: maximize gain expectation
+
+## search
+
+- breadth/depth first
+
 ## example application
 
 ### collaborative perception
