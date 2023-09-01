@@ -13,22 +13,36 @@ least 𝜖, with 𝜖 > 0. Assume the used heuristic is consistent. (Total: 3.5-
 (i) [true or false] Depth-first graph search is guaranteed to return an optimal
 solution.
 
+False.
+
 (ii) [true or false] Breadth-first graph search is guaranteed to return an
 optimal solution.
+
+False.
 
 (iii) [true or false] Uniform-cost graph search is guaranteed to return an
 optimal solution.
 
+True.
+
 (iv) [true or false] Greedy graph search is guaranteed to return an optimal
 solution.
 
+False.
+
 (v) [true or false] A* graph search is guaranteed to return an optimal solution.
+
+True.
 
 (vi) [true or false] A* graph search is guaranteed to expand no more nodes than
 depth-first graph search.
 
+False.
+
 (vii) [true or false] A* graph search is guaranteed to expand no more nodes
 than uniform-cost graph search.
+
+True.
 
 ### (b)
 
