@@ -69,16 +69,21 @@ False. h2 is not necessarily admissible, not to mention consistent.
 
 The heuristic values for the graph below are not correct. For which single
 state (S, A, B, C, D, or G) could you
-
 change the heuristic value to make everything admissible and consistent? What
 range of values are possible to
 make this correction? (Total: 1-point)
 
 ![graph](HW1_Q1_c.png)
 
-State:
+State: B
 
-Range:
+Range: $[2,3]$
+
+$$
+h_A≤|AB|+h_B\\
+h_B≤|BC|+h_C\\
+h_B≤|BD|+h_D
+$$
 
 ## Q2
 
