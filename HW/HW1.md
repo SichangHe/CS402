@@ -93,13 +93,13 @@ and heuristic values h for states are labeled next to the states. S is the
 start state, and G is the goal state. In all
 search algorithms, assume ties are broken in alphabetical order.
 
-![graph](HW1_Q2.jpg)
+<img alt="graph" height="256rem" src="HW1_Q2.jpg" />
 
 (a) Select all boxes that describe the given heuristic values. (Multi-choice)
 (0.5-point)
 
-- [ ] Admissible
-- [ ] Consistent
+- [x] Admissible
+- [x] Consistent
 - [ ] Neither
 
 (b) Given the above heuristics, what is the order that the states are going to
@@ -108,12 +108,12 @@ we run A* graph search with the heuristic values provided. (0.5-point)
 
 Index|1|2|3|4|5|Not expanded
 -|-|-|-|-|-|-
-S|-|-|-|-|-|-
-A|-|-|-|-|-|-
-B|-|-|-|-|-|-
-C|-|-|-|-|-|-
-D|-|-|-|-|-|-
-G|-|-|-|-|-|-
+S|X|-|-|-|-|-
+A|-|X|-|-|-|-
+B|-|-|X|-|-|-
+C|-|-|-|X|-|-
+D|-|-|-|-|-|X
+G|-|-|-|-|X|-
 
 (c\) Assuming we run A* graph search with the heuristic values provided, what
 path is returned? (0.5-point)
