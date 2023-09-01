@@ -52,12 +52,18 @@ Let h1(s) be an admissible A* heuristic. Let h2(s) = 2h1(s). Then:
 (i) [true or false] The solution found by A* tree search with h2 is guaranteed
 to be an optimal solution.
 
+False. h2 is not necessarily admissible.
+
 (ii) [true or false] The solution found by A* tree search with h2 is
 guaranteed to have a cost at most
 twice as much as the optimal path.
 
+True. Proof by induction.
+
 (iii) [true or false] The solution found by A* graph search with h2 is
 guaranteed to be an optimal solution.
+
+False. h2 is not necessarily admissible, not to mention consistent.
 
 ### (c\)
 
