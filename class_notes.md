@@ -113,7 +113,6 @@ properties
 
 #### table-driven structure
 
-
 $$
 n_{entry}=\sum_{t=1}^T|P|^T
 $$
@@ -145,3 +144,34 @@ match input against rule, return action
 ### anomaly detection
 
 - bidirectional optimization
+
+### uninformed search
+
+- backtracking search
+
+#### breadth-first search
+
+- complete: will find shallowest goal if graph has finite depth
+- optimal if path cost $g(n)$ is non-decreasing of depth $d$
+- $O(b^d)$ where $b$ is branching factor
+
+#### uniform-cost search
+
+expand node with least path cost $g(n)$
+
+- optimal
+- $O(b^{1+\lfloor C^*/\epsilon\rfloor})$ where every action cost $≥\epsilon$
+
+#### informed search (heuristic search)
+
+#### A\* search (A-star search)
+
+- cost $f(n)=g(n)+h(n)$
+    - cost to reach node $g(n)$
+    - estimated cost to goal, heuristic, $h(n)$
+- optimal if $h(n)$ is admissible in tree search
+    - admissibility: never overestimate
+- optimal if $h(n)$ is consistent in graph search
+    - consistency: triangle inequality $h(n)≤c(n,a,n')+h(n')$
+- optimally efficient if $h(n)$ is consistent:
+    expand fewest node among optimal algorithm

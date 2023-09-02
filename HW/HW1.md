@@ -32,17 +32,19 @@ False.
 
 (v) [true or false] A* graph search is guaranteed to return an optimal solution.
 
-True.
+True. The heuristic is assumed to be consistent.
 
 (vi) [true or false] A* graph search is guaranteed to expand no more nodes than
 depth-first graph search.
 
-False.
+False. Depth-first search could blindly hit the goal by luck, and it is not an
+optimal algorithm so the optimally efficient property of A* search does not
+apply here.
 
 (vii) [true or false] A* graph search is guaranteed to expand no more nodes
 than uniform-cost graph search.
 
-True.
+True. A* search is optimally efficient and uniform-cost search is optimal.
 
 ### (b)
 
