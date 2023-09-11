@@ -175,3 +175,96 @@ expand node with least path cost $g(n)$
     - consistency: triangle inequality $h(n)≤c(n,a,n')+h(n')$
 - optimally efficient if $h(n)$ is consistent:
     expand fewest node among optimal algorithm
+
+## reinforcement learning
+
+- control system
+
+### dynamic programming
+
+- key: sub-problem
+
+example
+
+- Dijkstra's algorithm: per node
+- Bellman-Ford algorithm: per hop
+
+### Markov decision process (MDP)
+
+finite tuple $\{S,A,\{P_{sa}\},\gamma,R\}$
+
+- space $S$
+- action $A$
+- state transition probabilities $P_{sa}$
+- discount factor $\gamma\in[0,1)$
+- reward function $R$: evaluation metric
+- total payoff. maximize this
+
+    $$
+    \sum_i \gamma^iR(S_i)
+    $$
+
+- policy $\pi:s\mapsto a$. find this
+
+#### find optimal policy
+
+optimal policy $\pi^*$
+
+$$
+\pi^*=\argmax_a \sum_{s'}P_{sa}(s')V^*(s')
+$$
+
+- mapping state to expected total payoff $V^\pi:s\mapsto\R$
+
+    $$
+    V^\pi(s)=\mathbb E\left[
+        \sum_i\gamma^iR(S_i)\Bigr|s_0=s
+    \right]=
+    \mathbb E\left[
+        [R(s)]+\gamma V^\pi(s')
+    \right]\\[12pt] ⇒
+    V^\pi(s)=R(s)+\gamma\sum_{s'}P_{s\pi(s)}(s')V^\pi(s')
+    $$
+
+    Bellman equation
+
+##### value iteration
+
+1. $V(s):=0$
+1. Bellman update: $∀\ s,$
+
+    $$
+    V(s):=R(s)+\max_a\gamma\sum_{s'}P_{sa}(s')V(s')
+    $$
+
+- linear system
+- Bellman back operator $V':=B(V)$
+- sync/async update
+- $\gamma$ force $V$ to converge $V^*$ exponentially
+
+##### policy iteration
+
+1. random $\pi$
+1. repeat:
+
+    $$
+    V:=V^\pi\qquad\text{by Bellman equation}\\
+    \pi(s):=\argmax_a\sum_{s'}P_{sa}(s')V(s')
+    $$
+
+- when converge, guarantee optimal policy
+- high complexity: linear system very step
+
+##### exploration and exploitation
+
+- $\varepsilon$-greedy
+
+    $$
+    a=\begin{cases}
+        \argmax V&probability\ 1-\varepsilon\\
+        random a\in A&probability\ \varepsilon
+    \end{cases}
+    $$
+
+    - $\varepsilon$ is small and decrease
+- softmax
