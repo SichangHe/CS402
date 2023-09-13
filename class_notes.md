@@ -189,7 +189,7 @@ example
 - Dijkstra's algorithm: per node
 - Bellman-Ford algorithm: per hop
 
-### Markov decision process (MDP)
+### discrete Markov decision process (discrete MDP)
 
 finite tuple $\{S,A,\{P_{sa}\},\gamma,R\}$
 
@@ -201,7 +201,7 @@ finite tuple $\{S,A,\{P_{sa}\},\gamma,R\}$
 - total payoff. maximize this
 
     $$
-    \sum_i \gamma^iR(S_i)
+    V=\sum_i \gamma^iR(s_i)
     $$
 
 - policy $\pi:s\mapsto a$. find this
@@ -218,7 +218,7 @@ $$
 
     $$
     V^\pi(s)=\mathbb E\left[
-        \sum_i\gamma^iR(S_i)\Bigr|s_0=s
+        \sum_i\gamma^iR(s_i)\Bigr|s_0=s
     \right]=
     \mathbb E\left[
         [R(s)]+\gamma V^\pi(s')
@@ -268,3 +268,152 @@ $$
 
     - $\varepsilon$ is small and decrease
 - softmax
+
+### continuous Markov decision process (continuous MDP)
+
+$$
+V(s)=R(s)+\gamma\max_a\mathbb E_{s'\sim P_{sa}}[V(s')]
+$$
+
+#### inverted pendulum
+
+- kinematic model
+
+#### discretization
+
+- curse of dimensionality: $|S|=\R^n$
+- bad for smooth function
+
+4 ~ 8 dimension
+
+#### value function approximation
+
+approximate $V^*$
+
+$$
+V^*(s)=\theta^T\phi(s)
+$$
+
+trial
+
+1. model/simulator: $s'\mapsto P_{sa}$
+    - assume $A$ discrete
+
+    $$
+    s'=s+\Delta t\dot s
+    $$
+
+1. learn from data
+    - $n$ trial, each with $T$ time step
+    - supervised learning $(s_t,a_t)\mapsto s_{t+1}$
+        - linear regression $s_{t+1}=As_t+Ba_t,A\in\R^{m × n},B\in\R^{n × d}$
+        - deterministic/stochastic model
+            - noise term $\varepsilon_t\in N(0,\varepsilon)$
+        - model-based reinforcement learning
+        - fitted value iteration
+
+##### fitted value iteration
+
+approximate $V^*(s)$ from $s^{(i)},i\in\{1,…,n\}$
+
+1. trial: ramdomly sample $s^{(i)},i\in\{1,…,n\}$
+1. initialization: $\theta:=0$
+1. repeat:
+
+    ```rust
+    for i in 1..n {
+        for a in A {
+    ```
+
+    sample $s'_i\sim P_{sa}^{(i)},i\in\{1,…,k\}$
+
+    $$
+    q(a):=\frac{1}{k}\sum_{j=1}^k\left[
+        R(s^{(i)})+\gamma V(s'_j)
+    \right]
+    $$
+
+    <details><summary>is estimation of</summary>
+
+    $$
+    R(s)+\gamma\mathbb E_{s'\sim P_{sa}}[V(s')]
+    $$
+
+    </details>
+
+    ```
+        }
+    ```
+
+    $$
+    y^{(i)}:=\max_aq(a)
+    $$
+
+    ```
+    }
+    ```
+
+    $$
+    \theta:=\argmin_\theta\sum_i \left(
+        \theta^T\phi(s^{(i)})-y^{(i)}
+    \right)^2
+    $$
+
+    or any other regression model
+
+- for deterministic model, can set $k=1$
+
+#### Mealy machine MDP
+
+$R:S × A → \R$
+
+Bellman equation:
+
+$$
+V^*(s)=\max_a \left[
+    R(s,a)+\gamma\sum_{s'}P_{sa}(s')V^*(s')
+\right]\\[12pt] ⇒
+\pi^*=\argmax_a \left[
+    R(s,a)+\gamma\sum_{s'}P_{sa}(s')V^*(s')
+\right]
+$$
+
+#### finite horizon MDP
+
+- finite tuple $\{S,A,\{P_{sa}\},T,R\}$
+- time horizon $T\in(0,+∞)$
+- maximize $\sum_{t=0}^TR(s_t,a_t)$
+- action based on time $\pi_t^*$
+- time-dependent dynamic
+
+    $$
+    V_t(s)=\mathbb E \left[
+        \sum_{t'=t}^TR(s_{t'},a_{t'})
+    \right]\\[12pt]
+    V_t^*(s)=\begin{cases}
+        \displaystyle\max_a \left[
+            R^{(t)}(s,a)+\mathbb E_{s'\sim P_{sa}^{(t)}}(V_{t+1}^*(s'))
+        \right]&t\in\{0,…,T-1\}\\
+        \displaystyle\max_a \left[
+            R^{(t)}(s,a)
+        \right]&t=T
+    \end{cases}
+    $$
+
+    - solution by dynamic programming: work way back from $V_T^*(s)$
+
+##### linear quadratic regulation
+
+- $S:\R^n,A:\R^d,n>d$
+- linear transition with noise $P_{sa}$
+
+    $$
+    s_{t+1}=As_t+Ba_t+\omega_t
+    $$
+
+- negative quadratic reward to push system back\
+    $u_t:\R^{u × n},v_t:\R^{n × n},\quad u_t,v_t≥0$
+
+    $$
+    R(s_t,a_t)=-s_t^Tu_ts_t-a_t^Tv_ta_t
+    $$
