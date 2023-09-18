@@ -179,6 +179,7 @@ expand node with least path cost $g(n)$
 ## reinforcement learning
 
 - control system
+- model-based vs model-free
 
 ### dynamic programming
 
@@ -262,7 +263,7 @@ $$
     $$
     a=\begin{cases}
         \argmax V&probability\ 1-\varepsilon\\
-        random a\in A&probability\ \varepsilon
+        random\ a\in A&probability\ \varepsilon
     \end{cases}
     $$
 
@@ -318,48 +319,36 @@ approximate $V^*(s)$ from $s^{(i)},i\in\{1,…,n\}$
 
 1. trial: ramdomly sample $s^{(i)},i\in\{1,…,n\}$
 1. initialization: $\theta:=0$
-1. repeat:
+1. repeat for $i\in\{1,…,n\}$:
+    1. repeat for $1\in A$:
 
-    ```rust
-    for i in 1..n {
-        for a in A {
-    ```
+        sample $s'_i\sim P_{sa}^{(i)},i\in\{1,…,k\}$
 
-    sample $s'_i\sim P_{sa}^{(i)},i\in\{1,…,k\}$
+        $$
+        q(a):=\frac{1}{k}\sum_{j=1}^k\left[
+            R(s^{(i)})+\gamma V(s'_j)
+        \right]
+        $$
 
-    $$
-    q(a):=\frac{1}{k}\sum_{j=1}^k\left[
-        R(s^{(i)})+\gamma V(s'_j)
-    \right]
-    $$
+        <details><summary>is estimation of</summary>
 
-    <details><summary>is estimation of</summary>
+        $$
+        R(s)+\gamma\mathbb E_{s'\sim P_{sa}}[V(s')]
+        $$
 
-    $$
-    R(s)+\gamma\mathbb E_{s'\sim P_{sa}}[V(s')]
-    $$
-
-    </details>
-
-    ```
-        }
-    ```
+        </details>
 
     $$
     y^{(i)}:=\max_aq(a)
     $$
 
-    ```
-    }
-    ```
+any regression model, e.g.
 
-    $$
-    \theta:=\argmin_\theta\sum_i \left(
-        \theta^T\phi(s^{(i)})-y^{(i)}
-    \right)^2
-    $$
-
-    or any other regression model
+$$
+\theta:=\argmin_\theta\sum_i \left(
+    \theta^T\phi(s^{(i)})-y^{(i)}
+\right)^2
+$$
 
 - for deterministic model, can set $k=1$
 
@@ -417,3 +406,100 @@ $$
     $$
     R(s_t,a_t)=-s_t^Tu_ts_t-a_t^Tv_ta_t
     $$
+
+#### policy searching method
+
+- stochastic policy $\pi_\theta:S × A → \R$
+- $\pi_\theta(s,a)$: probability of taking action $a$ at state $s$
+- direct policy search: find reasonable $\theta$
+
+    $$
+    \max_\theta\mathbb E\left[
+        \sum_{t=0}^T R(s_t,a_t)\Bigr|\pi_\theta
+    \right]
+    $$
+
+    - fixed initial state
+    - greedy stochastic gradient ascent
+    - learning rate $\alpha\in(0,1]$
+
+repeat:
+
+1. sample $s_t,a_t$
+1. reinforce
+
+    $$
+    \theta:=\theta+\alpha\sum_t\left[
+        \frac{\nabla_\theta\pi_\theta(s_t,a_t)}{\pi_\theta(s_t,a_t)}
+    \right]\sum_tR(s_t,a_t)
+    $$
+
+reason it converge: product rule
+
+### partial observable MDP
+
+#### reinforce with baseline
+
+- arbitrary baseline $b(s)$
+    - independent of $a$
+
+$$
+\theta:=\theta+\alpha\sum_t\left[
+    \nabla_\theta\ln\pi_\theta(s_t,a_t)
+\right](f(\tau)-b(s))
+$$
+
+### Monte Carlo method
+
+- trial: $(s_t,a_t)$
+- wait until end of episode return $G_t$
+- $V(s_t):=V(s_t)+\alpha(G_t-V(s_t))$
+- drawback: slow if episode long
+
+### time-difference learning (TD-learning)
+
+at time $t+1$, update $V(s_t)$
+
+$$
+V(s_t):=V(s_t)+\alpha(\delta_t)
+$$
+
+- TD error $\delta_t$
+
+    $$
+    \delta_t=R(s_{t+1})+\gamma V(s_{t+1})-V(s_t)
+    $$
+
+#### on-policy TD (SARSA)
+
+- $\varepsilon$-greedy
+
+1. initialize arbitrary reward $Q(s,a)$
+1. repeat for episode
+    1. initialize $S$
+    1. behavior policy: select $a_t$ based on $Q$
+    1. repeat for each step
+        1. select potential $a'$ for $s'$ based on $Q$
+        1. update $Q(s,a)$
+
+            $$
+            Q(s_t,a_t):=Q(s_t,a_t)+\alpha\left[
+                R(s_t)+\gamma Q(s_{t+1},a')-Q(s_t,a_t)
+            \right]
+            $$
+
+        1. $s:=s'$
+
+        until $s$ is terminal
+
+#### off-policy TD: Q-learning
+
+same as SARSA except
+
+$$
+Q(s_t,a_t):=Q(s_t,a_t)+\alpha\left[
+    R(s_t)+\gamma\max_aQ(s_{t+1},a)-Q(s_t,a_t)
+\right]
+$$
+
+- greedy
