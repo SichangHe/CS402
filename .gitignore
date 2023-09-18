@@ -1,3 +1,10 @@
 **.DS_Store
 **.docx
 **.pdf
+
+# LaTeX
+**.aux
+**.fdb_latexmk
+**.fls
+**.log
+**.synctex.gz
