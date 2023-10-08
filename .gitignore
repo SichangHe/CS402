@@ -8,3 +8,8 @@
 **.fls
 **.log
 **.synctex.gz
+**blx.bib
+**.bbl         
+**.bcf         
+**.blg         
+**.xml     
