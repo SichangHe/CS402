@@ -39,7 +39,43 @@ provide a roadmap of the development of AI techniques in your research area.
 
 \section{TODO: Main Body}
 
-\cite{beutel2020flower}
+TensorFlow Federated \cite{bonawitz2019towards} is oriented to
+provide infrastructure for simulation for production-level FL on smartphones.
+TODO: read again.
+
+FedML \cite{he2020fedml} is a FL as a Service (FLaaS).
+It uses MNN for its training on Android,
+and it has not provided an iOS SDK.
+
+Flower \cite{beutel2020flower,mathur2021ondevice}
+only provides a communication layer and
+leaves the training implementation to the users.
+For the training implementation,
+its Android example depends on TensorFlow Lite and
+its iOS example depends on Core ML.
+
+Syft \cite{ryffel2018generic,Ziller2021,hall2021syft}
+proposes a custom training process and
+offers implementations for both Android and iOS,
+but it is low-performance and only uses CPU.
+
+PaddlePaddle \cite{ma2019paddlepaddle} by Baidu is
+also mainly for simulations oriented to production.
+It supports inference on Android.
+
+FATE \cite{liu2021fate} is mainly for production-level simulations.
+TODO: read again.
+
+OpenFL \cite{patrick2022openfl} is also mainly for simulations.
+TODO: read again.
+
+FedScale \cite{lai2022fedscale} leans towards benchmarking.
+It supports Android via a UNIX environment.
+
+Project Florida \cite{madrigal2023project}
+is a production-ready FLaaS by Microsoft.
+Its Android training is marketed as accelerated,
+and its iOS training is not mentioned.
 
 % (You can use table to summarize the features of existing methods;
 % or you can conduct the comparative study by
