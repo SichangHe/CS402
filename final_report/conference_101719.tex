@@ -1,7 +1,5 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
-% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
-% \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex}
 \usepackage{graphicx}
@@ -27,19 +25,20 @@
 \maketitle
 
 \begin{abstract}
-TODO: Insert a very brief paragraph to summarize your essay
+% TODO: Insert a very brief paragraph to summarize your essay
 \end{abstract}
 
 \section{Introduction}
 
-TODO: Briefly introduce your understanding of AI,
-provide an overview of the application of the AI in your research area.
-For example, you can discuss the current development trend and
-provide a roadmap of the development of AI techniques in your research area.
+% TODO: Briefly introduce your understanding of AI,
+
+% provide an overview of the application of the AI in your research area.
+% For example, you can discuss the current development trend and
+% provide a roadmap of the development of AI techniques in your research area.
 
 Federated learning (FL) is a machine learning (ML) technique that
 allows edge devices to collaborately train a shared ML model using
-local data \cite{bonawitz2019towards}.
+local data~\cite{bonawitz2019towards}.
 These private data are kept local,
 therefore FL is suitable for scenarios where
 the training data cannot be shared to a central server due to privacy concerns.
@@ -71,41 +70,42 @@ or techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
 
-TensorFlow Federated \cite{tensorflow2015-whitepaper} is oriented to
+TensorFlow Federated~\cite{tensorflow2015-whitepaper} is oriented to
 provide infrastructure for production-level FL on smartphones.
-It is mainly used for simulation for its rich feature,
-but it does not have on-device training support.
+It is widely used for simulation for its rich feature including
+decentralized simulation using gRPC,
+but it does not have on-device training support~\cite{kholod2020open}.
 
-FedML \cite{he2020fedml} is a FL as a Service (FLaaS).
+FedML~\cite{he2020fedml} is a FL as a Service (FLaaS).
 It uses MNN for its training on Android,
 and it has not provided an iOS SDK.
 
-Flower \cite{beutel2020flower,mathur2021ondevice}
+Flower~\cite{beutel2020flower,mathur2021ondevice}
 only provides a communication layer and
 leaves the training implementation to the users.
 For the training implementation,
 its Android example depends on TensorFlow Lite and
 its iOS example depends on Core ML.
 
-Syft \cite{ryffel2018generic,Ziller2021,hall2021syft}
+Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft}
 proposes a custom training process and
 offers implementations for both Android and iOS,
 but it is low-performance and only uses CPU.
 
-PaddlePaddle \cite{ma2019paddlepaddle} by Baidu is
+PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu is
 also mainly for simulations oriented to production.
 It supports inference on Android.
 
-FATE \cite{liu2021fate} is mainly for production-level simulations.
+FATE~\cite{liu2021fate} is mainly for production-level simulations.
 TODO: read again.
 
-OpenFL \cite{patrick2022openfl} is also mainly for simulations.
+OpenFL~\cite{patrick2022openfl} is also mainly for simulations.
 TODO: read again.
 
-FedScale \cite{lai2022fedscale} leans towards benchmarking.
+FedScale~\cite{lai2022fedscale} leans towards benchmarking.
 It supports Android via a UNIX environment.
 
-Project Florida \cite{madrigal2023project}
+Project Florida~\cite{madrigal2023project}
 is a production-ready FLaaS by Microsoft.
 Its Android training is marketed as accelerated,
 and its iOS training is not mentioned.
@@ -141,16 +141,16 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 
 \section{Discussion}
 
-TODO: Provide an outlook on the development of AI technology in
-your research area based on your knowledge of your research area and
-your understanding of AI.
-You can discuss some open challenges and try to
-provide the corresponding potential solutions or
-discuss the potential research directions.
+% TODO: Provide an outlook on the development of AI technology in
+% your research area based on your knowledge of your research area and
+% your understanding of AI.
+% You can discuss some open challenges and try to
+% provide the corresponding potential solutions or
+% discuss the potential research directions.
 
 Security remains a critical concern in FL.
 Attacks to FL systems to reverse engineer the training data have been
-demonstrated to be practical \cite{sun2019really}.
+demonstrated to be practical~\cite{sun2019really}.
 Mechanism that increase anonymity and
 reduce the risk of successful attacks have been proposed and implemented.
 For example, differential privacy and secure aggregation are
@@ -166,8 +166,8 @@ Companies may well use FL to cover their direct data collection under the hood.
 
 \printbibliography
 
-TODO: at least 10 references,
-50\% references should be published within 5 years,
-blogs/website/news reports should be less than 10\%.
+% TODO: at least 10 references,
+% 50\% references should be published within 5 years,
+% blogs/website/news reports should be less than 10\%.
 
 \end{document}
