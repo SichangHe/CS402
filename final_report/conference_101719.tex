@@ -16,7 +16,7 @@
     COMPSCI 402 --- Artificial Intelligence\\
     Final Report\\
     The Development and Outlook of AI Techniques in The Field of
-    Federated Learning on Mobile Devices
+    Practical Federated Learning on Mobile Devices
 }
 
 \author{
@@ -37,11 +37,44 @@ provide an overview of the application of the AI in your research area.
 For example, you can discuss the current development trend and
 provide a roadmap of the development of AI techniques in your research area.
 
+Federated learning (FL) is a machine learning (ML) technique that
+allows edge devices to collaborately train a shared ML model using
+local data \cite{bonawitz2019towards}.
+These private data are kept local,
+therefore FL is suitable for scenarios where
+the training data cannot be shared to a central server due to privacy concerns.
+
+The increasing need to train ML models for business,
+the rising awareness of data privacy among individuals,
+and the improving laws of governments contribute to
+the growing applications of FL.
+FL is a compelling option for companies to train ML models using users' data
+without breaking some of the privacy laws.
+
+Unlike model personalization,
+where local models are adjusted using each user's data to
+adapt to the each specific user,
+FL aims to train a global model.
+This means that, for example,
+while it is common to only update the last layer of neural networks in
+model personalization,
+we usually want to update most or all layers in FL.
+This causes extra restrictions and difficulties.
+For example, by only updating the last layer,
+model personalization can remain efficient even when
+the neural network used is deep;
+in contrast, the computational complexity in back propagation for
+deep neural networks makes it unsuitable for FL on mobile devices.
+Therefore, FL either requires smaller models to be used,
+or partial updates,
+or techniques to be applied so it does not train the whole model.
+
 \section{TODO: Main Body}
 
-TensorFlow Federated \cite{bonawitz2019towards} is oriented to
-provide infrastructure for simulation for production-level FL on smartphones.
-TODO: read again.
+TensorFlow Federated \cite{tensorflow2015-whitepaper} is oriented to
+provide infrastructure for production-level FL on smartphones.
+It is mainly used for simulation for its rich feature,
+but it does not have on-device training support.
 
 FedML \cite{he2020fedml} is a FL as a Service (FLaaS).
 It uses MNN for its training on Android,
@@ -114,6 +147,22 @@ your understanding of AI.
 You can discuss some open challenges and try to
 provide the corresponding potential solutions or
 discuss the potential research directions.
+
+Security remains a critical concern in FL.
+Attacks to FL systems to reverse engineer the training data have been
+demonstrated to be practical \cite{sun2019really}.
+Mechanism that increase anonymity and
+reduce the risk of successful attacks have been proposed and implemented.
+For example, differential privacy and secure aggregation are
+adopted by many production-level FL frameworks and
+their effectiveness has been demonstrated.
+
+However, the real-world application on mobile devices still faces a fundamental
+issue of trust.
+After the mobile applications obtain the training data,
+there is no obvious way to verify whether the data are used for FL,
+or are in fact sent to a central server.
+Companies may well use FL to cover their direct data collection under the hood.
 
 \printbibliography
 
