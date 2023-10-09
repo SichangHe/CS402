@@ -52,6 +52,16 @@ without breaking some of the privacy laws.
 Applications include but are not limited to item ranking, content suggestions,
 and next-word prediction~\cite{bonawitz2019towards}.
 
+Despite the advantages of FL on paper,
+the practical application of FL on mobile devices are still limited.
+FL is proposed in as early as 2017~\cite{mcmahan2017communication},
+and the first effective and well-known application of FL, Google's Gboard,
+was announced in 2019~\cite{bonawitz2019towards}.
+However, in 2023, FL applications are still rare to see.
+The reason is that practical FL faces many challenges such as
+privacy security, training efficiency and performance issues,
+and heterogeneity problems~\cite{wen2023survey}.
+
 Model personalization is a popular variant of FL.
 While FL generally aims to train a global model,
 in model personalization,
@@ -160,7 +170,8 @@ Attacks to FL systems to reverse engineer the training data have been
 demonstrated to be practical~\cite{sun2019really}.
 Mechanism that increase anonymity and
 reduce the risk of successful attacks have been proposed and implemented.
-For example, differential privacy and secure aggregation are
+For example, secure multi-party computing,
+differential privacy and secure aggregation are
 adopted by many production-level FL frameworks and
 their effectiveness has been demonstrated.
 
