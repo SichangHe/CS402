@@ -52,23 +52,28 @@ without breaking some of the privacy laws.
 Applications include but are not limited to item ranking, content suggestions,
 and next-word prediction~\cite{bonawitz2019towards}.
 
-Unlike model personalization,
-where local models are adjusted using each user's data to
-adapt to the each specific user,
-FL aims to train a global model.
-This means that, for example,
-while it is common to only update the last layer of neural networks in
-model personalization,
-we usually want to update most or all layers in FL.
-This causes extra restrictions and difficulties.
-For example, by only updating the last layer,
+Model personalization is a popular variant of FL.
+While FL generally aims to train a global model,
+in model personalization,
+local models are adjusted using each user's data to
+adapt to the each specific user.
+Therefore, model personalization excels general FL when
+facing high statistical heterogeneity among the users~\cite{kulkarni2020survey}.
+Model personalization also reduces some restrictions and difficulties that
+general FL faces.
+For example,
+we usually aim to update most or all layers in general FL,
+but it is common to only update the last layer of neural networks in
+transfer learning,
+a type of model personalization.
+By only updating the last layer,
 model personalization can remain efficient even when
 the neural network used is deep;
 in contrast, the computational complexity in back propagation for
-deep neural networks makes it unsuitable for FL on mobile devices.
-Therefore, FL either requires smaller models to be used,
+deep neural networks makes it unsuitable for general FL on mobile devices.
+Therefore, general FL either requires smaller models to be used,
 or partial updates,
-or techniques to be applied so it does not train the whole model.
+or other techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
 
