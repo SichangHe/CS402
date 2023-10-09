@@ -113,14 +113,20 @@ the MNN ML framework~\cite{jiang2020mnn} for its on-device training on Android.
 
 Some systems choose to adopt solutions that are not specifically designed for
 mobile ML,
-including virtualisation-based and web-based.
+including web-based and UNIX-environment-based solutions.
 For example,
-TensorFlow.js is capable of running inside a browser or a webview on
-mobile devices~\cite{smilkov2019tensorflow}.
-TensorFlow.js is used by~\cite{sriraman2022device} and
-\cite{palanisamy2021spliteasy}.
+TensorFlow.js is capable of running inside a browser on mobile devices or
+a webview inside mobile applications~\cite{smilkov2019tensorflow}.
+The usage of TensorFlow.js by~\cite{sriraman2022device} resulted in
+difficulties in testing,
+but~\cite{palanisamy2021spliteasy} shows the advantages of TensorFlow.js on iOS
+by integrating it into a React Native application for split learning.
 Another example is FedScale~\cite{lai2022fedscale},
-which uses a UNIX console on Android devices to run TensorFlow directly.
+which uses Termux, a UNIX console on Android,
+to run TensorFlow directly.
+FedScale's solution is only suitable for its benchmarking purposes because
+it requires the Termux application to run and
+cannot be embedded.
 
 \section{TODO: Main Body}
 
