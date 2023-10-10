@@ -102,6 +102,18 @@ and heterogeneity problems~\cite{wen2023survey}.
 
 \section{The General Procedure of Federated Learning for Mobile Devices}
 
+Generally, FL involves a distributed system that
+consists of two parties of intelligent agents and
+four phases per training iteration,
+as illustrated in Fig.~\ref{fig:general-fl}.
+The two parties are the central server and the clients.
+From the perspective of the ML models being trained,
+for each iteration,
+the global model is distributed to the clients from the central server,
+then the clients train it locally using local training data,
+finally, the clients send the trained local models back to the central server,
+where they are aggregated into a new global model.
+
 Model personalization is a popular variant of FL.
 While FL generally aims to train a global model,
 in model personalization,
@@ -124,6 +136,14 @@ deep neural networks makes it unsuitable for general FL on mobile devices.
 Therefore, general FL either requires smaller models to be used,
 or partial updates,
 or other techniques to be applied so it does not train the whole model.
+
+\begin{figure}
+\centerline{
+    \includegraphics[width=0.5\textwidth]{general-fl.png}
+}
+\caption{General Procedure of FL for Mobile Devices.}
+\label{fig:general-fl}
+\end{figure}
 
 \section{Scheduling}
 
@@ -228,14 +248,6 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 \label{tab1}
 \end{center}
 \end{table}
-
-\begin{figure}[htbp]
-\centerline{
-    % \includegraphics{fig1.png}
-}
-\caption{Example of a figure caption.}
-\label{fig}
-\end{figure}
 
 \section{Discussion}
 
