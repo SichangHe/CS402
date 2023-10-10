@@ -109,10 +109,41 @@ as illustrated in Fig.~\ref{fig:general-fl}.
 The two parties are the central server and the clients.
 From the perspective of the ML models being trained,
 for each iteration,
-the global model is distributed to the clients from the central server,
-then the clients train it locally using local training data,
-finally, the clients send the trained local models back to the central server,
-where they are aggregated into a new global model.
+the global model is distributed to the clients from the central server;
+then, the clients train it locally using local training data;
+after local training,
+the clients send the trained local models back to the central server;
+finally, these local models are aggregated into a new global model,
+and the process is potentially repeated for the next new iteration.
+
+The most typical FL algorithm, \verb|FedAvg|,
+is proposed in~\cite{mcmahan2017communication}.
+We assume $K$ clients, where each client $k$ has a partition $P_k$ of
+the total training data ($k \in \{1, 2, \dots, K\}$) as their local data.
+For efficiency,
+in each iteration $t$ of the training process,
+the central server randomly samples $C$ clients for local training.
+Each selected client $k$ obtains the parameters $w^{(t)}$ of
+the latest global model from the server,
+and then train the model locally using their local data $P_k$ to
+produce a new local model with parameters $w_k^{(t+1)}$.
+The objective of this local training process is to minimize the loss $L$ of
+the model with parameters $w_k$ for partition $P_k$:
+\begin{equation}
+    \min_{w_k} L(P_k;w_k).
+\end{equation}
+And, the objective to optimize the global model is
+\begin{equation}
+    \min_{w} \frac{\sum_k |P_k|L(P_k;w)}{\sum_k |P_k|}
+\end{equation}
+where $|P_k|$ is the size of partition $P_k$.
+To approach this objective,
+\verb|FedAvg| aggregates the parameters of local models by
+taking the weighted average:
+\begin{equation}
+    w^{(t+1)}=\sum_k \frac{|P_k|}{\sum_k |P_k|}w_k^{(t+1)}.
+\end{equation}
+This algorithm has been shown to be effective and practical in experiments.
 
 Model personalization is a popular variant of FL.
 While FL generally aims to train a global model,
