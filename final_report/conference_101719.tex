@@ -100,7 +100,7 @@ The reason is that practical FL faces many challenges such as
 privacy security, training efficiency and performance issues,
 and heterogeneity problems~\cite{wen2023survey}.
 
-\section{The General Procedure of Federated Learning for Mobile Devices}
+\section{The General Procedure of Federated Learning}
 
 Generally, FL involves a distributed system that
 consists of two parties of intelligent agents and
@@ -145,7 +145,24 @@ taking the weighted average:
 \end{equation}
 This algorithm has been shown to be effective and practical in experiments.
 
-Model personalization is a popular variant of FL.
+The typical settings for the original \verb|FedAvg| can be changed in
+various ways for different FL needs.
+For example,
+the sampling of clients can be changed to a function based on
+each client's properties instead of being random,
+and the number of clients sampled each iteration could vary.
+The local training could be customized just like any regular ML training.
+And, the aggregation of the local parameters could use another function.
+Scheduling techniques are developed to overcome the problem where
+a small number of clients lag behind all other clients,
+known as
+``the straggler issue''~\cite{chen2020asynchronous,zheng2017asynchronous}.
+For example, instead of using strict iterations,
+the training process could be asynchronous~\cite{zhu2022online}.
+All these techniques are developed to improve the performance of FL
+so it can be practical.
+
+Model personalization is another popular variant of FL.
 While FL generally aims to train a global model,
 in model personalization,
 local models are adjusted using each user's data to
