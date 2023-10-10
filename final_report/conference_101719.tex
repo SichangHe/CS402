@@ -30,7 +30,7 @@
 
 \section{Introduction}
 
-% TODO: Briefly introduce your understanding of AI,
+% Briefly introduce your understanding of AI,
 
 The term ``artificial intelligence'' (AI) is used to refer to
 artificial machineries that
@@ -59,7 +59,7 @@ and train this model by altering the parameters in the function.
 % For example, you can discuss the current development trend and
 % provide a roadmap of the development of AI techniques in your research area.
 
-Federated learning (FL) is an ML technique that
+Federated learning (FL), first proposed in 2016, is an ML technique that
 allows distributed intelligent agents to collaborately train a model using
 their local data~\cite{mcmahan2017communication}.
 These private data are kept local,
@@ -73,18 +73,34 @@ and the improving laws of governments contribute to
 the growing applications of FL.
 FL is a compelling option for companies to train ML models using users' data
 without breaking some of the privacy laws.
-Applications include but are not limited to item ranking, content suggestions,
-and next-word prediction~\cite{bonawitz2019towards}.
 
-Despite the advantages of FL on paper,
-the practical application of FL on mobile devices are still limited.
-FL is proposed in as early as 2017~\cite{mcmahan2017communication},
-and the first effective and well-known application of FL, Google's Gboard,
-was announced in 2019~\cite{bonawitz2019towards}.
-However, in 2023, FL applications are still rare to see.
+The applications of FL broadly concerns with situations where
+the private data that individual intelligent agent possesses are in
+the center of the problem.
+Some of the earliest practical applications of FL are proposed
+in~\cite{bonawitz2019towards},
+including selecting and ranking items, suggesting relevant content,
+and next-word prediction for smart keyboard on mobile devices.
+In all these applications,
+the private data from the users' interactions with
+the keyboard are in the center of the problems.
+Since then, a large portion of practical applications of FL have been
+focusing on applications on mobile devices.
+For example, vision-based product quality inspection~\cite{bharti2022edge} using
+an iOS application and
+SMS spam classification on Android devices~\cite{sriraman2022device}.
+
+Despite the advantages of mobile FL on paper,
+the practical applications of FL on mobile devices are still limited.
+FL is proposed in as early as 2016~\cite{mcmahan2017communication},
+and the first effective and well-known application of FL
+was announced in 2019~\cite{bonawitz2019towards},
+yet, in 2023, FL applications are still rare to see.
 The reason is that practical FL faces many challenges such as
 privacy security, training efficiency and performance issues,
 and heterogeneity problems~\cite{wen2023survey}.
+
+\section{The General Procedure of Federated Learning for Mobile Devices}
 
 Model personalization is a popular variant of FL.
 While FL generally aims to train a global model,
@@ -108,8 +124,6 @@ deep neural networks makes it unsuitable for general FL on mobile devices.
 Therefore, general FL either requires smaller models to be used,
 or partial updates,
 or other techniques to be applied so it does not train the whole model.
-
-\section{The General Procedure of Federated Learning for Mobile Devices}
 
 \section{Scheduling}
 
