@@ -100,12 +100,12 @@ The reason is that practical FL faces many challenges such as
 privacy security, training efficiency and performance issues,
 and heterogeneity problems~\cite{wen2023survey}.
 
-\section{The General Procedure of Federated Learning}
+\section{The General Procedure of Federated Learning on Mobile Devices}
 
+% TODO: Expand this.
 Generally, FL involves a distributed system that
 consists of two parties of intelligent agents and
-four phases per training iteration,
-as illustrated in Fig.~\ref{fig:general-fl}.
+four phases per training iteration.
 The two parties are the central server and the clients.
 From the perspective of the ML models being trained,
 for each iteration,
@@ -115,24 +115,54 @@ after local training,
 the clients send the trained local models back to the central server;
 finally, these local models are aggregated into a new global model,
 and the process is potentially repeated for the next new iteration.
+For FL on mobile devices,
+the clients are typically mobile applications running on Android or iOS devices,
+and the central server is a remote server on the Internet,
+as illustrated in Fig.~\ref{fig:general-fl}.
 
-The most typical FL algorithm, \verb|FedAvg|,
+\begin{figure}
+\centerline{
+    \includegraphics[width=0.5\textwidth]{general-fl.png}
+}
+\caption{General Procedure of FL for Mobile Devices.}
+\label{fig:general-fl}
+\end{figure}
+
+The specific implementations of FL on mobile devices vary,
+but they all have a similar basis that we discuss in the following.
+
+\subsection{The FedAvg Algorithm}
+
+The first FL algorithm ever, \verb|FedAvg|,
 is proposed in~\cite{mcmahan2017communication}.
-We assume $K$ clients, where each client $k$ has a partition $P_k$ of
+It is also the most typical FL algorithm,
+with many of its aspects regarded as the standard FL procedures.
+Many other FL scheduling strategies are only different from \verb|FedAvg| in
+minor details.
+
+In \verb|FedAvg|,
+we assume $K$ fixed number of clients,
+where each client $k$ has a fixed partition $P_k$ of
 the total training data ($k \in \{1, 2, \dots, K\}$) as their local data.
 For efficiency,
 in each iteration $t$ of the training process,
 the central server randomly samples $C$ clients for local training.
 Each selected client $k$ obtains the parameters $w^{(t)}$ of
 the latest global model from the server,
-and then train the model locally using their local data $P_k$ to
-produce a new local model with parameters $w_k^{(t+1)}$.
+and then train the model locally using their local data $P_k$
+produce a new local model.
 The objective of this local training process is to minimize the loss $L$ of
 the model with parameters $w_k$ for partition $P_k$:
 \begin{equation}
     \min_{w_k} L(P_k;w_k).
 \end{equation}
-And, the objective to optimize the global model is
+The local training is scheduled for a fixed number of $E$ epochs.
+And, it produces a new set of weights $w_k^{(t+1)}$ for
+each selected client $k$.
+
+To aggregate the local models and derive a global model that
+is optimized for all training data $\bigcup_k P_k$,
+the objective for the global model is set to
 \begin{equation}
     \min_{w} \frac{\sum_k |P_k|L(P_k;w)}{\sum_k |P_k|}
 \end{equation}
@@ -143,8 +173,75 @@ taking the weighted average:
 \begin{equation}
     w^{(t+1)}=\sum_k \frac{|P_k|}{\sum_k |P_k|}w_k^{(t+1)}.
 \end{equation}
-This algorithm has been shown to be effective and practical in experiments.
 
+The above iteration step is repeated many times until
+the experiment is terminated or
+the model has converged.
+
+\verb|FedAvg| has been shown to be effective and practical
+in experiments~\cite{mcmahan2017communication}.
+Specifically, it was benchmarked against \verb|FedSGD|\cite{chen2016revisiting},
+an older algorithm designed for distributed ML,
+in a data center setting~\cite{bonawitz2019towards}.
+
+\subsection{The Specific Challenges of Practical Federated Learning on
+Mobile Devices Under the FedAvg Context}
+
+However, FL on mobile devices differs significantly from
+FL in a data center setting.
+Mobile devices are a distinct kind of intelligent agents compared to
+servers in data centers.
+They are highly heterogeneous,
+composing of a wide range of hardware and software configurations.
+Thus, problems arise when applying \verb|FedAvg| to FL on mobile devices in
+practical scenarios.
+
+FL on mobile devices require customized scheduling.
+\verb|FedAvg| waits for each client to finish in each iteration.
+Mobile clients differ greatly in their computational abilities,
+therefore some of them are bound to be much slower than others.
+This often causes the problem where
+a small number of clients lag behind all other clients,
+known as
+``the straggler problem''~\cite{chen2020asynchronous,zheng2017asynchronous}.
+The straggler problem significantly decrease the training efficiency of FL,
+and are initially mitigated by backup workers~\cite{chen2016revisiting}.
+This mitigation strategy, however,
+is not suitable for FL on mobile devices because
+each client typically possesses a different set of data.
+Novel scheduling strategies are developed to
+make FL on mobile devices more efficient.
+
+FL on mobile devices faces significant challenges in communication.
+\verb|FedAvg| involves transmitting all the model parameters among
+clients and the server.
+For FL on mobile devices,
+clients usually connect to the server via wireless networks,
+limiting the transmission bandwidth and reliability.
+Various techniques are developed to reduce the amount of data transmitted
+and improve the reliability of the transmission.
+
+The final problem that prevents practical FL on mobile devices is
+the problem of on-device training.
+To start with, the ability to train ML models on mobile devices has been
+bleeding-edge and
+is on-device training is not generally well-supported on any mobile platform.
+Additionally,
+while \verb|FedAvg| assumes that all the model parameters are
+in the same format that is known to all agents involved,
+for FL on mobile devices,
+the training on the devices usually involves platform-specific ML frameworks
+that differ from the ones on the server.
+This parameter alignment problem doubles when
+the mobile client run on different platforms with
+different ML frameworks.
+To solve the on-device training problem,
+various ML frameworks are experimented with,
+and some FL frameworks developed their own training implementations.
+
+\section{Customizations in Federated Learning Scheduling for Mobile Devices}
+
+% TODO: redo the following two paragraphs.
 The typical settings for the original \verb|FedAvg| can be changed in
 various ways for different FL needs.
 For example,
@@ -153,12 +250,10 @@ each client's properties instead of being random,
 and the number of clients sampled each iteration could vary.
 The local training could be customized just like any regular ML training.
 And, the aggregation of the local parameters could use another function.
-Scheduling techniques are developed to overcome the problem where
-a small number of clients lag behind all other clients,
-known as
-``the straggler issue''~\cite{chen2020asynchronous,zheng2017asynchronous}.
+Scheduling techniques are developed to overcome the straggler problem.
 For example, instead of using strict iterations,
-the training process could be asynchronous~\cite{zhu2022online}.
+the training process could be
+asynchronous~\cite{chilimbi2014project,zhu2022online}.
 All these techniques are developed to improve the performance of FL
 so it can be practical.
 
@@ -185,15 +280,7 @@ Therefore, general FL either requires smaller models to be used,
 or partial updates,
 or other techniques to be applied so it does not train the whole model.
 
-\begin{figure}
-\centerline{
-    \includegraphics[width=0.5\textwidth]{general-fl.png}
-}
-\caption{General Procedure of FL for Mobile Devices.}
-\label{fig:general-fl}
-\end{figure}
-
-\section{Scheduling}
+FedProx~\cite{li2020federated}
 
 \section{Communication}
 
@@ -257,13 +344,14 @@ cannot be embedded.
 
 \section{TODO: Main Body}
 
-TensorFlow Federated~\cite{tensorflow2015-whitepaper} is oriented to
+TensorFlow Federated~\cite{tensorflow2015-whitepaper,abadi2016tensorflow}
+is oriented to
 provide infrastructure for production-level FL on smartphones.
-It is widely used for simulation for its rich feature including
+It has been widely used for simulation for its rich feature including
 decentralized simulation using gRPC,
 but it does not have on-device training support~\cite{kholod2020open}.
 
-FedML~\cite{he2020fedml} is a FL as a Service (FLaaS).
+FedML~\cite{he2020fedml} is an FL as a Service (FLaaS).
 It uses MNN for its training on Android,
 and it has not provided an iOS SDK.
 
@@ -351,12 +439,13 @@ Attacks to FL systems to reverse engineer the training data have been
 demonstrated to be practical~\cite{sun2019really}.
 Mechanism that increase anonymity and
 reduce the risk of successful attacks have been proposed and implemented.
-For example, multi-party computing,
-differential privacy~\cite{dwork2006differential} and
-secure aggregation are
+For example,
+homomorphic encryption (HE)~\cite{wang2020homo},
+secure multi-party computing (SMC)~\cite{bonawitz2016practical}, and
+differential privacy
+(DP)~\cite{dwork2006differential,geyer2017differentially} are
 adopted by many production-level FL frameworks and
 their effectiveness has been demonstrated.
-
 However, the real-world application on mobile devices still faces a fundamental
 issue of trust.
 After the mobile applications obtain the training data,
