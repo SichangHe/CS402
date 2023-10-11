@@ -213,9 +213,30 @@ Core ML is only used by a few FL frameworks such as
 Flower~\cite{beutel2020flower} for iOS support,
 and is more commonly used for specific applications
 such as this vision-based quality inspector application~\cite{bharti2022edge}.
+
 Third-party solutions for these mobile operating systems are less commonly used.
 For example, FedML~\cite{he2020fedml} uses
-the MNN ML framework~\cite{jiang2020mnn} for its on-device training on Android.
+the MNN ML framework by Alibaba~\cite{jiang2020mnn,lv2022walle} for
+its on-device training on Android.
+MNN claims to support Android and iOS and promises lightweight binaries.
+However, in my attempt to use MNN, I found that its documentation is
+severely lacking, outdated, and confusing.
+Also, despite the claim that MNN supports iOS,
+FedML still has not provided an iOS SDK 15 months after they planned
+it\footnote{https://github.com/FedML-AI/FedML/tree/master/ios}.
+
+There are third on-device training solutions that are worth keeping an key on,
+but the difficulty to interface hardware on different platforms is
+still an major challenge.
+ONNX Runtime~\cite{onnxruntime} by Microsoft aims to
+unify the ML experience on all platforms by
+supporting Open Neural Network Exchange (ONNX),
+an open-source format to represent deep learning
+models~\cite{ParedesdelRio2020}.
+However, its implementations are currently only utilizing CPUs,
+leaving out the massive performance improvements by the hardware acceleration
+from GPUs and NPUs on the processors of modern mobile devices.
+This limitation severely restricts its practical usage.
 
 Some systems choose to adopt solutions that are not specifically designed for
 mobile ML,
@@ -305,6 +326,25 @@ copy& More table copy$^{\mathrm{a}}$& &  \\
 % You can discuss some open challenges and try to
 % provide the corresponding potential solutions or
 % discuss the potential research directions.
+
+On-device training remains the most significant obstacle for
+practical FL on mobile devices.
+Although popular FL frameworks such as
+PySyft~\cite{ryffel2018generic,Ziller2021,hall2021syft}
+have democratized FL research by providing tooling and
+algorithms~\cite{sriraman2022device},
+most of them lack comprehensive support for operations on mobile devices.
+Among the necessary operations for FL on mobile devices,
+on-device training is the most challenging one because
+implementing it requires either depending on
+platform-specific ML frameworks that are highly experimental (TensorFlow Lite)
+or proprietary (Core ML),
+or developing home-grown solutions.
+Most FL frameworks choose to use platform-specific ML frameworks,
+while custom training implementations such as
+the Android and iOS implementations of Syft are limited to CPU.
+As a result, it is usually difficult to conduct on-device FL
+on mobile devices using existing FL frameworks.
 
 Security remains a critical concern in FL.
 Attacks to FL systems to reverse engineer the training data have been
