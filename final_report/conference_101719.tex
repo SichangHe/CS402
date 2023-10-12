@@ -239,7 +239,9 @@ To solve the on-device training problem,
 various ML frameworks are experimented with,
 and some FL frameworks developed their own training implementations.
 
-\section{Customizations in Federated Learning Scheduling for Mobile Devices}
+\section{Customizations in Federated Learning Scheduling Strategies for
+    Mobile Devices
+}
 
 The heterogeneity of mobile devices means that FL on mobile devices needs to
 adopt custom scheduling strategies.
@@ -282,6 +284,27 @@ asynchronous~\cite{chilimbi2014project,zhu2022online}.
 All these techniques are developed to improve the performance of FL
 so it can be practical.
 
+FL frameworks such as FedML~\cite{he2020fedml} and
+Flower~\cite{beutel2020flower} leaves the customization of
+scheduling completely to their users.
+From a programming perspective,
+these frameworks provide interfaces,
+also known as abstract classes,
+for custom clients to implement.
+These interfaces usually include methods for
+training the model locally,
+getting and setting the model parameters,
+and responding to messages\footnote{\url{
+    https://github.com/FedML-AI/FedML/blob/master/android/fedmlsdk/src/main/java/ai/fedml/edge/FedEdgeApi.java
+}.}\footnote{\url{
+    https://github.com/adap/flower/blob/main/src/kotlin/flwr/src/main/java/dev/flower/android/Client.kt
+}.}\footnote{\url{
+    https://github.com/adap/flower/blob/main/src/kotlin/flwr/src/main/java/dev/flower/android/Client.kt
+}.}.
+These interfaces greatly increases the flexibility to
+implement custom scheduling strategies when using these FL frameworks,
+but they sometimes also leave the burden of implementing them to the users.
+
 \section{Communication}
 
 \section{On-Device Training for Federated Learning on Mobile Devices}
@@ -315,7 +338,9 @@ However, in my attempt to use MNN, I found that its documentation is
 severely lacking, outdated, and confusing.
 Also, despite the claim that MNN supports iOS,
 FedML still has not provided an iOS SDK 15 months after they planned
-it\footnote{https://github.com/FedML-AI/FedML/tree/master/ios}.
+it\footnote{\url{
+    https://github.com/FedML-AI/FedML/tree/master/ios
+}.}.
 
 There are third-party on-device training solutions that are worth keeping an key on,
 but the difficulty to interface hardware on different platforms is
