@@ -307,7 +307,7 @@ but they sometimes also leave the burden of implementing them to the users.
 
 While the implementation of the server is usually easily customizable with
 open-source frameworks,
-the rise of FL as a service (FLaaS)~\cite{kourtellis2020flaas}
+the rise of FL as a service (FLaaS)
 adds nuances to the server side.
 These FLaaS providers manage their own proprietary servers that
 are only accessible to the users using opaque APIs.
@@ -316,6 +316,16 @@ offers a set of Python APIs to customize the server implementation,
 and allows users to upload their server implementations using a web interface.
 
 \section{Communication}
+
+FedML~\cite{he2020fedml} uses an abstract communication layer on top of
+the concrete implementations.
+These implementations either use the message passing interface
+(MPI)\footnote{\url{
+    https://www.mpi-forum.org/
+}.} over HTTP,
+or uses the MQTT protocol\footnote{\url{
+    https://mqtt.org/mqtt-specification/
+}.}.
 
 \section{On-Device Training for Federated Learning on Mobile Devices}
 
