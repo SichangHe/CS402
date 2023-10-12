@@ -252,6 +252,8 @@ the whole training process.
 For example, one person with a five-year-old Android phone may determine
 the training efficiency of the whole FL system.
 
+\subsection{Mitigating the Straggler Problem}
+
 Some strategies to mitigate the straggler problem have been proposed.
 A timeout could be applied to drop
 straggling devices~\cite{bonawitz2019towards}.
@@ -268,6 +270,10 @@ benchmarks, such as
 TensorFlow Federated~\cite{tff},
 Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft}, and
 LEAF~\cite{caldas2018leaf}.
+Other similar optimizations include
+\verb|ef-signSGD|~\cite{karimireddy2019error},
+\verb|FedAdam|~\cite{reddi2020adaptive},
+and~\cite{luo2021cost}.
 
 % TODO: redo the following paragraph.
 The typical settings for the original \verb|FedAvg| can be changed in
@@ -296,6 +302,11 @@ FATE~\cite{liu2021fate} by Tencent, and
 OpenFL~\cite{patrick2022openfl} by Intel
 are similarly designed for
 production-grade FL simulations.
+Additionally,
+FL benchmarks such as FedScale~\cite{lai2022fedscale} are also developed to
+compare and identify scheduling strategies with the highest performance.
+
+\subsection{Implementing Custom Scheduling Strategies}
 
 FL frameworks such as FedML~\cite{he2020fedml} and
 Flower~\cite{beutel2020flower} leaves the customization of
@@ -509,9 +520,6 @@ or partial updates,
 or other techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
-
-FedScale~\cite{lai2022fedscale} leans towards benchmarking.
-It supports Android via a UNIX environment.
 
 Project Florida~\cite{madrigal2023project}
 is a production-ready FLaaS by Microsoft.
