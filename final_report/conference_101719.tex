@@ -335,11 +335,34 @@ gRPC\footnote{\url{
     https://grpc.io/
 }.} is another popular choice for FL communication.
 It is used by TensorFlow Federated~\cite{tff} for decentralized simulation.
+Flower uses gRPC for the standard implementation of
+its communication protocol, the Flower Protocol~\cite{beutel2020flower}.
+
+gRPC is desirable for communication between FL mobile participants for
+several reasons.
+It uses a compact binary representation for data structures,
+allowing for efficient transmission,
+therefore it is suitable for mobile devices that
+are often under restricted network conditions.
+gRPC provides a wide range of programming language support,
+facilitating its adoption on different platforms.
+It is bidirectional, so the server can push instructions to the clients.
+It is also based on HTTP/2,
+therefore it can usually bypass mobile devices' restricted firewalls while
+also allowing the server to recognize which clients have lost their connections.
 
 \section{On-Device Training for Federated Learning on Mobile Devices}
 
 TensorFlow Federated~\cite{tff} does not support
-on-device training~\cite{kholod2020open}.
+on-device training~\cite{kholod2020open},
+nor does LEAF~\cite{caldas2018leaf}.
+Flower~\cite{beutel2020flower} leaves the on-device training implementation to
+its users,
+but provides example Android and iOS implementations\footnote{\url{
+    https://github.com/adap/flower/tree/main/examples/android-kotlin
+}.}\footnote{\url{
+    https://github.com/adap/flower/tree/main/examples/ios
+}}.
 
 \subsection{First-Party Mobile Machine Learning Frameworks}
 
@@ -349,13 +372,15 @@ Google's TensorFlow Lite~\cite{tensorflow2015-whitepaper,abadi2016tensorflow}
 for Android is
 a popular choice due to its flexibility and
 its maturity for on-device training.
-For example, TensorFlow Lite is used by FL frameworks such as~\cite{
-    beutel2020flower,mathur2021ondevice,kourtellis2020flaas,katevas2022flaas}
+For example, TensorFlow Lite is used by FLaaS frameworks such as~\cite{
+    kourtellis2020flaas,katevas2022flaas}
 for their Android support.
+Flower's Android example also uses
+TensorFlow Lite~\cite{beutel2020flower,mathur2021ondevice}.
 In contrast, Apples's Core ML~\cite{coreml} is less popular because
 it is much less user-friendly.
 Core ML is only used by a few FL frameworks such as
-Flower~\cite{beutel2020flower} for iOS support,
+Flower~\cite{beutel2020flower} for its iOS example,
 and is more commonly used for specific applications
 such as this vision-based quality inspector application~\cite{bharti2022edge}.
 
@@ -432,13 +457,6 @@ or partial updates,
 or other techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
-
-Flower~\cite{beutel2020flower,mathur2021ondevice}
-only provides a communication layer and
-leaves the training implementation to the users.
-For the training implementation,
-its Android example depends on TensorFlow Lite and
-its iOS example depends on Core ML.
 
 Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft}
 proposes a custom training process and
