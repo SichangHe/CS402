@@ -257,6 +257,76 @@ asynchronous~\cite{chilimbi2014project,zhu2022online}.
 All these techniques are developed to improve the performance of FL
 so it can be practical.
 
+FedProx~\cite{li2020federated}
+
+\section{Communication}
+
+\section{On-Device Training for Federated Learning on Mobile Devices}
+
+\subsection{First-Party Mobile Machine Learning Frameworks}
+
+Most FL systems utilize existing mobile ML frameworks to
+support on-device training.
+Google's TensorFlow Lite~\cite{tensorflow2015-whitepaper} for Android is
+a popular choice due to its flexibility and
+its maturity for on-device training.
+For example, TensorFlow Lite is used by FL frameworks such as~\cite{
+    beutel2020flower,mathur2021ondevice,kourtellis2020flaas,katevas2022flaas}
+for their Android support.
+In contrast, Apples's Core ML~\cite{coreml} is less popular because
+it is much less user-friendly.
+Core ML is only used by a few FL frameworks such as
+Flower~\cite{beutel2020flower} for iOS support,
+and is more commonly used for specific applications
+such as this vision-based quality inspector application~\cite{bharti2022edge}.
+
+\subsection{Third-Party Mobile Machine Learning Frameworks}
+
+Third-party solutions for these mobile operating systems are less commonly used.
+For example, FedML~\cite{he2020fedml} uses
+the MNN ML framework by Alibaba~\cite{jiang2020mnn,lv2022walle} for
+its on-device training on Android.
+MNN claims to support Android and iOS and promises lightweight binaries.
+However, in my attempt to use MNN, I found that its documentation is
+severely lacking, outdated, and confusing.
+Also, despite the claim that MNN supports iOS,
+FedML still has not provided an iOS SDK 15 months after they planned
+it\footnote{https://github.com/FedML-AI/FedML/tree/master/ios}.
+
+There are third-party on-device training solutions that are worth keeping an key on,
+but the difficulty to interface hardware on different platforms is
+still an major challenge.
+ONNX Runtime~\cite{onnxruntime} by Microsoft aims to
+unify the ML experience on all platforms by
+supporting Open Neural Network Exchange (ONNX),
+an open-source format to represent deep learning
+models~\cite{ParedesdelRio2020}.
+However, its implementations are currently only utilizing CPUs,
+leaving out the massive performance improvements by the hardware acceleration
+from GPUs and NPUs on the processors of modern mobile devices.
+This limitation severely restricts its practical usage.
+
+\subsection{Not-For-Mobile Solutions}
+
+Some systems choose to adopt solutions that are not specifically designed for
+mobile ML,
+including web-based and UNIX-environment-based solutions.
+For example,
+TensorFlow.js is capable of running inside a browser on mobile devices or
+a webview inside mobile applications~\cite{smilkov2019tensorflow}.
+The usage of TensorFlow.js by~\cite{sriraman2022device} resulted in
+difficulties in testing,
+but~\cite{palanisamy2021spliteasy} shows the advantages of TensorFlow.js on iOS
+by integrating it into a React Native application for split learning.
+Another example is FedScale~\cite{lai2022fedscale},
+which uses Termux, a UNIX console on Android,
+to run TensorFlow directly.
+FedScale's solution is only suitable for its benchmarking purposes because
+it requires the Termux application to run and
+cannot be embedded.
+
+\subsection{Model Personalization}
+
 Model personalization is another popular variant of FL.
 While FL generally aims to train a global model,
 in model personalization,
@@ -279,68 +349,6 @@ deep neural networks makes it unsuitable for general FL on mobile devices.
 Therefore, general FL either requires smaller models to be used,
 or partial updates,
 or other techniques to be applied so it does not train the whole model.
-
-FedProx~\cite{li2020federated}
-
-\section{Communication}
-
-\section{On-Device Training}
-
-Most FL systems utilize existing mobile ML frameworks to
-support on-device training.
-Google's TensorFlow Lite~\cite{tensorflow2015-whitepaper} for Android is
-a popular choice due to its flexibility and
-its maturity for on-device training.
-For example, TensorFlow Lite is used by FL frameworks such as~\cite{
-    beutel2020flower,mathur2021ondevice,kourtellis2020flaas,katevas2022flaas}
-for their Android support.
-In contrast, Apples's Core ML~\cite{coreml} is less popular because
-it is much less user-friendly.
-Core ML is only used by a few FL frameworks such as
-Flower~\cite{beutel2020flower} for iOS support,
-and is more commonly used for specific applications
-such as this vision-based quality inspector application~\cite{bharti2022edge}.
-
-Third-party solutions for these mobile operating systems are less commonly used.
-For example, FedML~\cite{he2020fedml} uses
-the MNN ML framework by Alibaba~\cite{jiang2020mnn,lv2022walle} for
-its on-device training on Android.
-MNN claims to support Android and iOS and promises lightweight binaries.
-However, in my attempt to use MNN, I found that its documentation is
-severely lacking, outdated, and confusing.
-Also, despite the claim that MNN supports iOS,
-FedML still has not provided an iOS SDK 15 months after they planned
-it\footnote{https://github.com/FedML-AI/FedML/tree/master/ios}.
-
-There are third on-device training solutions that are worth keeping an key on,
-but the difficulty to interface hardware on different platforms is
-still an major challenge.
-ONNX Runtime~\cite{onnxruntime} by Microsoft aims to
-unify the ML experience on all platforms by
-supporting Open Neural Network Exchange (ONNX),
-an open-source format to represent deep learning
-models~\cite{ParedesdelRio2020}.
-However, its implementations are currently only utilizing CPUs,
-leaving out the massive performance improvements by the hardware acceleration
-from GPUs and NPUs on the processors of modern mobile devices.
-This limitation severely restricts its practical usage.
-
-Some systems choose to adopt solutions that are not specifically designed for
-mobile ML,
-including web-based and UNIX-environment-based solutions.
-For example,
-TensorFlow.js is capable of running inside a browser on mobile devices or
-a webview inside mobile applications~\cite{smilkov2019tensorflow}.
-The usage of TensorFlow.js by~\cite{sriraman2022device} resulted in
-difficulties in testing,
-but~\cite{palanisamy2021spliteasy} shows the advantages of TensorFlow.js on iOS
-by integrating it into a React Native application for split learning.
-Another example is FedScale~\cite{lai2022fedscale},
-which uses Termux, a UNIX console on Android,
-to run TensorFlow directly.
-FedScale's solution is only suitable for its benchmarking purposes because
-it requires the Termux application to run and
-cannot be embedded.
 
 \section{TODO: Main Body}
 
