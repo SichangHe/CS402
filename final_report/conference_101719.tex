@@ -338,18 +338,24 @@ It is used by TensorFlow Federated~\cite{tff} for decentralized simulation.
 Flower uses gRPC for the standard implementation of
 its communication protocol, the Flower Protocol~\cite{beutel2020flower}.
 
-gRPC is desirable for communication between FL mobile participants for
+gRPC accompanied by protocol buffers (ProtoBuf)\footnote{\url{
+    https://protobuf.dev/
+}.} is desirable for communication between FL mobile participants for
 several reasons.
-It uses a compact binary representation for data structures,
-allowing for efficient transmission,
+ProtoBuf is a compact binary representation for data structures,
+allowing for efficient transmission~\cite{popic2016performance},
 therefore it is suitable for mobile devices that
 are often under restricted network conditions.
-gRPC provides a wide range of programming language support,
-facilitating its adoption on different platforms.
-It is bidirectional, so the server can push instructions to the clients.
+gRPC and ProtoBuf are language-agnostic and
+provide a wide range of programming language support,
+facilitating its adoption on different platforms~\cite{araujo2020performance}.
 It is also based on HTTP/2,
-therefore it can usually bypass mobile devices' restricted firewalls while
-also allowing the server to recognize which clients have lost their connections.
+therefore it can usually bypass mobile devices' restricted firewalls and
+pass through proxies~\cite{araujo2020performance}.
+Being connection-based and bidirectional,
+gRPC also allows the server to recognize
+which clients have lost their connections and
+push instructions to the clients.
 
 \section{On-Device Training for Federated Learning on Mobile Devices}
 
