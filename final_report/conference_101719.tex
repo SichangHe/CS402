@@ -62,7 +62,7 @@ and train this model by altering the parameters in the function.
 
 Federated learning (FL), first proposed in 2016, is an ML technique that
 allows distributed intelligent agents to collaborately train a model using
-their local data~\cite{mcmahan2017communication}.
+their local data~\cite{mcmahan2017communication,yang2019federated}.
 These private data are kept local,
 therefore FL is suitable for scenarios where
 the training data cannot be shared to a central intelligent agent due to
@@ -285,11 +285,15 @@ asynchronous~\cite{chilimbi2014project,zhu2022online}.
 All these techniques are developed to improve the performance of FL
 so it can be practical.
 
-TensorFlow Federated~\cite{tff} is widely used as
-infrastructure for production-level FL simulations with
-its rich features to experiment with scheduling strategies.
-Similar usecases are also seen with
-PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu,
+Many FL frameworks are developed for production-level FL simulations to
+experiment with scheduling strategies.
+TensorFlow Federated~\cite{tff} by Google is widely used as infrastructure for
+its rich features.
+PaddleFL\footnote{\url{
+    https://github.com/PaddlePaddle/PaddleFL
+}.} in PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu and
+FATE~\cite{liu2021fate} by Tencent are similarly designed for
+production-grade FL simulations.
 
 FL frameworks such as FedML~\cite{he2020fedml} and
 Flower~\cite{beutel2020flower} leaves the customization of
@@ -371,7 +375,6 @@ These examples include simulation-oriented frameworks such as
 TensorFlow Federated~\cite{tff,kholod2020open} and
 LEAF~\cite{caldas2018leaf}.
 PaddlePaddle~\cite{ma2019paddlepaddle},
-although claimed to be designed for industry-level FL,
 only supports inference on Android.
 
 Flower~\cite{beutel2020flower} leaves the on-device training implementation to
@@ -495,9 +498,6 @@ or partial updates,
 or other techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
-
-FATE~\cite{liu2021fate} is mainly for production-level simulations.
-TODO: read again.
 
 OpenFL~\cite{patrick2022openfl} is also mainly for simulations.
 TODO: read again.
