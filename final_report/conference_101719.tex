@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{xurl}
 
 \addbibresource{main.bib}
 
@@ -357,6 +358,9 @@ gRPC also allows the server to recognize
 which clients have lost their connections and
 push instructions to the clients.
 
+Syft uses WebSockets for communication between its network-based workers and
+the server~\cite{Ziller2021}.
+
 \section{On-Device Training for Federated Learning on Mobile Devices}
 
 TensorFlow Federated~\cite{tff} does not support
@@ -404,6 +408,26 @@ FedML still has not provided an iOS SDK 15 months after they planned
 it\footnote{\url{
     https://github.com/FedML-AI/FedML/tree/master/ios
 }.}.
+
+Notably, Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft} developed
+its custom on-device training implementations for
+both Android and iOS\footnote{\url{
+    https://blog.openmined.org/announcing-new-libraries-for-fl-on-web-and-mobile/
+}.}.
+However, their focus is on security and privacy,
+therefore the implementations greatly sacrifice
+performance~\cite{ryffel2018generic}.
+Furthermore, these custom implementations can only utilize the CPU,
+therefore they are far from being practical for real-world applications of
+FL on mobile devices.
+Unfortunately, development on
+both implementations for Android and iOS,
+KotlinSyft\footnote{\url{
+    https://github.com/OpenMined/KotlinSyft
+}.} and SwiftSyft\footnote{\url{
+    https://github.com/OpenMined/SwiftSyft
+}.} has been inactive for over two years,
+indicating that these projects have been abandoned due to a lack of interest.
 
 There are third-party on-device training solutions that are worth keeping an key on,
 but the difficulty to interface hardware on different platforms is
@@ -463,11 +487,6 @@ or partial updates,
 or other techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
-
-Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft}
-proposes a custom training process and
-offers implementations for both Android and iOS,
-but it is low-performance and only uses CPU.
 
 PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu is
 also mainly for simulations oriented to production.
