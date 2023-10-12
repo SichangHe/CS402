@@ -3,6 +3,9 @@
 \usepackage{algorithmic}
 \usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex}
 \usepackage{graphicx}
+\usepackage{pifont}  % for the checkmark/crossmark
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{xurl}
@@ -409,9 +412,14 @@ the lack of on-device training support.
 These examples include simulation-oriented frameworks such as
 TensorFlow Federated~\cite{tff,kholod2020open} and
 LEAF~\cite{caldas2018leaf}.
-PaddlePaddle~\cite{ma2019paddlepaddle},
+PaddlePaddle~\cite{ma2019paddlepaddle}
 only supports inference on Android.
 
+Most FL frameworks that support on-device training on mobile devices do not
+cover all platforms,
+or lacks support for hardware acceleration,
+as shown in Table~\ref{tab:on-device}.
+As an exception,
 Flower~\cite{beutel2020flower} leaves the on-device training implementation to
 its users,
 but provides example Android and iOS implementations\footnote{\url{
@@ -420,6 +428,28 @@ but provides example Android and iOS implementations\footnote{\url{
     https://github.com/adap/flower/tree/main/examples/ios
 }}.
 
+
+\begin{table}
+\caption{Mobile On-Device Training Functionalities of
+    Federated Learning Frameworks.
+}
+\begin{center}
+\begin{tabular}{cccc}
+    Functionality&Android&iOS&Hardware Acceleration\\
+    \hline
+    TensorFlow Federated&\xmark&\xmark&\xmark\\
+    LEAF&\xmark&\xmark&\xmark\\
+    PaddleFL&\xmark&\xmark&\xmark\\
+    Flower&\cmark$^\mathrm{a}$&\cmark$^\mathrm{a}$&\cmark$^\mathrm{a}$\\
+    FedML&\cmark&\xmark&\cmark\\
+    Syft&\cmark&\cmark&\xmark\\
+    FedScale&\cmark$^\mathrm{b}$&\xmark&\cmark\\
+    \multicolumn{4}{l}{$^{\mathrm{a}}$Up to the user to implement.}\\
+    \multicolumn{4}{l}{$^{\mathrm{b}}$Only in Termux.}
+\end{tabular}
+\label{tab:on-device}
+\end{center}
+\end{table}
 \subsection{First-Party Mobile Machine Learning Frameworks}
 
 Most FL systems utilize existing mobile ML frameworks to
@@ -536,7 +566,7 @@ or other techniques to be applied so it does not train the whole model.
 % or you can conduct the comparative study by
 % testing some state-of-the-art methods on your selected dataset.)
 
-\begin{table}[htbp]
+\begin{table}
 \caption{Table Type Styles}
 \begin{center}
 \begin{tabular}{|c|c|c|c|}
