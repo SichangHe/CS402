@@ -288,6 +288,8 @@ so it can be practical.
 TensorFlow Federated~\cite{tff} is widely used as
 infrastructure for production-level FL simulations with
 its rich features to experiment with scheduling strategies.
+Similar usecases are also seen with
+PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu,
 
 FL frameworks such as FedML~\cite{he2020fedml} and
 Flower~\cite{beutel2020flower} leaves the customization of
@@ -363,9 +365,15 @@ the server~\cite{Ziller2021}.
 
 \section{On-Device Training for Federated Learning on Mobile Devices}
 
-TensorFlow Federated~\cite{tff} does not support
-on-device training~\cite{kholod2020open},
-nor does LEAF~\cite{caldas2018leaf}.
+Most FL frameworks cannot support practical FL on mobile devices due to
+the lack of on-device training support.
+These examples include simulation-oriented frameworks such as
+TensorFlow Federated~\cite{tff,kholod2020open} and
+LEAF~\cite{caldas2018leaf}.
+PaddlePaddle~\cite{ma2019paddlepaddle},
+although claimed to be designed for industry-level FL,
+only supports inference on Android.
+
 Flower~\cite{beutel2020flower} leaves the on-device training implementation to
 its users,
 but provides example Android and iOS implementations\footnote{\url{
@@ -406,7 +414,7 @@ severely lacking, outdated, and confusing.
 Also, despite the claim that MNN supports iOS,
 FedML still has not provided an iOS SDK 15 months after they planned
 it\footnote{\url{
-    https://github.com/FedML-AI/FedML/tree/master/ios
+    https://github.com/FedML-AI/FedML/tree/9aeb0c097efc9ea7037cfe24499c3d61c81c4dca/ios
 }.}.
 
 Notably, Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft} developed
@@ -487,10 +495,6 @@ or partial updates,
 or other techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
-
-PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu is
-also mainly for simulations oriented to production.
-It supports inference on Android.
 
 FATE~\cite{liu2021fate} is mainly for production-level simulations.
 TODO: read again.
