@@ -286,7 +286,7 @@ so it can be practical.
 
 FL frameworks such as FedML~\cite{he2020fedml} and
 Flower~\cite{beutel2020flower} leaves the customization of
-scheduling completely to their users.
+scheduling on the client side completely to their users.
 From a programming perspective,
 these frameworks provide interfaces,
 also known as abstract classes,
@@ -304,6 +304,16 @@ and responding to messages\footnote{\url{
 These interfaces greatly increases the flexibility to
 implement custom scheduling strategies when using these FL frameworks,
 but they sometimes also leave the burden of implementing them to the users.
+
+While the implementation of the server is usually easily customizable with
+open-source frameworks,
+the rise of FL as a service (FLaaS)~\cite{kourtellis2020flaas}
+adds nuances to the server side.
+These FLaaS providers manage their own proprietary servers that
+are only accessible to the users using opaque APIs.
+FedML~\cite{he2020fedml}, for example,
+offers a set of Python APIs to customize the server implementation,
+and allows users to upload their server implementations using a web interface.
 
 \section{Communication}
 
@@ -331,7 +341,7 @@ such as this vision-based quality inspector application~\cite{bharti2022edge}.
 
 Third-party solutions for these mobile operating systems are less commonly used.
 For example, FedML~\cite{he2020fedml} uses
-the MNN ML framework by Alibaba~\cite{jiang2020mnn,lv2022walle} for
+the MNN ML framework~\cite{jiang2020mnn,lv2022walle} by Alibaba for
 its on-device training on Android.
 MNN claims to support Android and iOS and promises lightweight binaries.
 However, in my attempt to use MNN, I found that its documentation is
@@ -407,10 +417,6 @@ provide infrastructure for production-level FL on smartphones.
 It has been widely used for simulation for its rich feature including
 decentralized simulation using gRPC,
 but it does not have on-device training support~\cite{kholod2020open}.
-
-FedML~\cite{he2020fedml} is an FL as a Service (FLaaS).
-It uses MNN for its training on Android,
-and it has not provided an iOS SDK.
 
 Flower~\cite{beutel2020flower,mathur2021ondevice}
 only provides a communication layer and
