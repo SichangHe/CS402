@@ -291,8 +291,10 @@ TensorFlow Federated~\cite{tff} by Google is widely used as infrastructure for
 its rich features.
 PaddleFL\footnote{\url{
     https://github.com/PaddlePaddle/PaddleFL
-}.} in PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu and
-FATE~\cite{liu2021fate} by Tencent are similarly designed for
+}.} in PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu,
+FATE~\cite{liu2021fate} by Tencent, and
+OpenFL~\cite{patrick2022openfl} by Intel
+are similarly designed for
 production-grade FL simulations.
 
 FL frameworks such as FedML~\cite{he2020fedml} and
@@ -326,7 +328,15 @@ FedML~\cite{he2020fedml}, for example,
 offers a set of Python APIs to customize the server implementation,
 and allows users to upload their server implementations using a web interface.
 
-\section{Communication}
+\section{Communication Implementations Among Clients and The Server}
+
+Remote Procedure Call (RPC) is the standard communication method for
+practical FL.
+This is likely due to the flexibility it brings to the FL process.
+Under an RPC framework,
+clients and the server can transfer instructions for the other side to execute.
+Therefore, RPC allows for straightforward customization of
+FL schedule strategies.
 
 FedML~\cite{he2020fedml} uses an abstract communication layer on top of
 the concrete implementations.
@@ -338,10 +348,11 @@ or uses the MQTT protocol\footnote{\url{
     https://mqtt.org/mqtt-specification/
 }.}.
 
-gRPC\footnote{\url{
+The gRPC Remote Procedure Call\footnote{\url{
     https://grpc.io/
 }.} is another popular choice for FL communication.
-It is used by TensorFlow Federated~\cite{tff} for decentralized simulation.
+It is used by TensorFlow Federated~\cite{tff} and
+OpenFL~\cite{patrick2022openfl} for decentralized simulation.
 Flower uses gRPC for the standard implementation of
 its communication protocol, the Flower Protocol~\cite{beutel2020flower}.
 
@@ -498,9 +509,6 @@ or partial updates,
 or other techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
-
-OpenFL~\cite{patrick2022openfl} is also mainly for simulations.
-TODO: read again.
 
 FedScale~\cite{lai2022fedscale} leans towards benchmarking.
 It supports Android via a UNIX environment.
