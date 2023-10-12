@@ -284,6 +284,10 @@ asynchronous~\cite{chilimbi2014project,zhu2022online}.
 All these techniques are developed to improve the performance of FL
 so it can be practical.
 
+TensorFlow Federated~\cite{tff} is widely used as
+infrastructure for production-level FL simulations with
+its rich features to experiment with scheduling strategies.
+
 FL frameworks such as FedML~\cite{he2020fedml} and
 Flower~\cite{beutel2020flower} leaves the customization of
 scheduling on the client side completely to their users.
@@ -327,7 +331,15 @@ or uses the MQTT protocol\footnote{\url{
     https://mqtt.org/mqtt-specification/
 }.}.
 
+gRPC\footnote{\url{
+    https://grpc.io/
+}.} is another popular choice for FL communication.
+It is used by TensorFlow Federated~\cite{tff} for decentralized simulation.
+
 \section{On-Device Training for Federated Learning on Mobile Devices}
+
+TensorFlow Federated~\cite{tff} does not support
+on-device training~\cite{kholod2020open}.
 
 \subsection{First-Party Mobile Machine Learning Frameworks}
 
@@ -420,13 +432,6 @@ or partial updates,
 or other techniques to be applied so it does not train the whole model.
 
 \section{TODO: Main Body}
-
-TensorFlow Federated~\cite{tff}
-is oriented to
-provide infrastructure for production-level FL on smartphones.
-It has been widely used for simulation for its rich feature including
-decentralized simulation using gRPC,
-but it does not have on-device training support~\cite{kholod2020open}.
 
 Flower~\cite{beutel2020flower,mathur2021ondevice}
 only provides a communication layer and
