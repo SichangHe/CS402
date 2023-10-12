@@ -254,12 +254,23 @@ the training efficiency of the whole FL system.
 
 \subsection{Mitigating the Straggler Problem}
 
+The typical settings for the original \verb|FedAvg| can be changed in
+various ways for different FL needs.
+For example,
+the sampling of clients can be changed to a function based on
+each client's properties instead of being random,
+and the number of clients sampled each iteration could vary.
+Also, the aggregation of the local parameters could use another function.
+
 Some strategies to mitigate the straggler problem have been proposed.
 A timeout could be applied to drop
 straggling devices~\cite{bonawitz2019towards}.
 However, this strategy is not suitable for FL on mobile devices because
 some devices may be inherently slower than others and
 their training data would be wasted.
+
+Most strategies to mitigate the straggler problem involve
+synchronous aggregation.
 \verb|FedProx|~\cite{li2020federated} is proposed to
 allow for each client to train for a various number of local epochs according to
 their computational abilities.
@@ -275,21 +286,17 @@ Other similar optimizations include
 \verb|FedAdam|~\cite{reddi2020adaptive},
 and~\cite{luo2021cost}.
 
-% TODO: redo the following paragraph.
-The typical settings for the original \verb|FedAvg| can be changed in
-various ways for different FL needs.
-For example,
-the sampling of clients can be changed to a function based on
-each client's properties instead of being random,
-and the number of clients sampled each iteration could vary.
-The local training could be customized just like any regular ML training.
-And, the aggregation of the local parameters could use another function.
-Scheduling techniques are developed to overcome the straggler problem.
-For example, instead of using strict iterations,
-the training process could be
-asynchronous~\cite{chilimbi2014project,zhu2022online}.
-All these techniques are developed to improve the performance of FL
-so it can be practical.
+\newcommand{\FedML}{FedML~\cite{he2020fedml}}
+\newcommand{\Florida}{Project Florida~\cite{madrigal2023project}}
+
+On the other hand,
+instead of using strict iterations,
+the training process could also be
+asynchronous~\cite{chilimbi2014project,zhu2022online,huba2022papaya}.
+Asynchronous aggregation has been adopted in
+FL frameworks like \FedML{} and \Florida{}.
+
+\subsection{Testing FL Scheduling Strategies}
 
 Many FL frameworks are developed for production-level FL simulations to
 experiment with scheduling strategies.
@@ -308,7 +315,7 @@ compare and identify scheduling strategies with the highest performance.
 
 \subsection{Implementing Custom Scheduling Strategies}
 
-FL frameworks such as FedML~\cite{he2020fedml} and
+FL frameworks such as \FedML{} and
 Flower~\cite{beutel2020flower} leaves the customization of
 scheduling on the client side completely to their users.
 From a programming perspective,
@@ -334,12 +341,17 @@ open-source frameworks,
 the rise of FL as a service (FLaaS)
 adds nuances to the server side.
 These FLaaS providers manage their own proprietary servers that
-are only accessible to the users using opaque APIs.
-FedML~\cite{he2020fedml}, for example,
+are only accessible to the users using opaque APIs or GUIs.
+\FedML{}, for example,
 offers a set of Python APIs to customize the server implementation,
 and allows users to upload their server implementations using a web interface.
+\Florida{} is another production-ready FLaaS by Microsoft,
+and it supports Python scripts or .NET executables to be uploaded for
+server aggregation function.
+Both of these FLaaS also provide web GUI interfaces that
+are much less customizable.
 
-\section{Communication Implementations Among Clients and The Server}
+\section{Communication Implementations Among Clients and the Server}
 
 Remote Procedure Call (RPC) is the standard communication method for
 practical FL.
@@ -349,7 +361,7 @@ clients and the server can transfer instructions for the other side to execute.
 Therefore, RPC allows for straightforward customization of
 FL schedule strategies.
 
-FedML~\cite{he2020fedml} uses an abstract communication layer on top of
+\FedML{} uses an abstract communication layer on top of
 the concrete implementations.
 These implementations either use the message passing interface
 (MPI)\footnote{\url{
@@ -366,6 +378,7 @@ It is used by TensorFlow Federated~\cite{tff} and
 OpenFL~\cite{patrick2022openfl} for decentralized simulation.
 Flower uses gRPC for the standard implementation of
 its communication protocol, the Flower Protocol~\cite{beutel2020flower}.
+And, \Florida{} allows users to choose between gRPC and REST.
 
 gRPC accompanied by protocol buffers (ProtoBuf)\footnote{\url{
     https://protobuf.dev/
@@ -430,7 +443,7 @@ such as this vision-based quality inspector application~\cite{bharti2022edge}.
 \subsection{Third-Party Mobile Machine Learning Frameworks}
 
 Third-party solutions for these mobile operating systems are less commonly used.
-For example, FedML~\cite{he2020fedml} uses
+For example, \FedML{} uses
 the MNN ML framework~\cite{jiang2020mnn,lv2022walle} by Alibaba for
 its on-device training on Android.
 MNN claims to support Android and iOS and promises lightweight binaries.
@@ -518,13 +531,6 @@ deep neural networks makes it unsuitable for general FL on mobile devices.
 Therefore, general FL either requires smaller models to be used,
 or partial updates,
 or other techniques to be applied so it does not train the whole model.
-
-\section{TODO: Main Body}
-
-Project Florida~\cite{madrigal2023project}
-is a production-ready FLaaS by Microsoft.
-Its Android training is marketed as accelerated,
-and its iOS training is not mentioned.
 
 % (You can use table to summarize the features of existing methods;
 % or you can conduct the comparative study by
