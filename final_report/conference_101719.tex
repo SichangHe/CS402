@@ -1,6 +1,7 @@
 \documentclass[conference]{IEEEtran}
 \IEEEoverridecommandlockouts
 \usepackage{algorithmic}
+\usepackage[ruled]{algorithm2e}
 \usepackage[backend=bibtex,style=ieee,natbib=true]{biblatex}
 \usepackage{graphicx}
 \usepackage{pifont}  % for the checkmark/crossmark
@@ -80,7 +81,8 @@ without breaking some of the privacy laws.
 
 The applications of FL broadly concerns with situations where
 the private data that individual intelligent agent possesses are
-the center of the problem.
+the center of an ML problem,
+which is typically the case with FL use cases on mobile devices.
 Some of the earliest practical applications of FL are proposed
 in~\cite{bonawitz2019towards},
 including selecting and ranking items, suggesting relevant content,
@@ -104,15 +106,39 @@ The reason is that practical FL faces many challenges such as
 privacy security, training efficiency and performance issues,
 and heterogeneity problems~\cite{wen2023survey}.
 
+To approach practical FL on mobile devices,
+we first introduce its general procedure in \ref{sec:general-procedure}.
+Then, we discuss three key challenges it faces—scheduling, communication, and
+on-device training—in \ref{sec:scheduling}, \ref{sec:communication}, and
+\ref{sec:on-device}, respectively.
+Finally, we discuss additional challenges and
+provide a potential roadmap for practical FL on mobile devices in
+\ref{sec:discussion}.
+
 \section{The General Procedure of Federated Learning on Mobile Devices}
 
-% TODO: Expand this.
+\label{sec:general-procedure}
+
+\begin{algorithm}
+  \caption{The General Procedure of Federated Learning}
+  \label{algo:general-procedure}
+  \ForEach{Training iteration}{
+    Distribute the global model to all clients\;
+    \ForEach{Client}{
+      Train the local model using local training data\;
+      Send the trained local model back to the central server\;
+    }
+    The central server aggregates all local models into a new global model\;
+  }
+\end{algorithm}
+
 Generally, FL involves a distributed system that
 consists of two parties of intelligent agents and
-four phases per training iteration.
+four phases per training iteration,
+as shown in Algorithm~\ref{algo:general-procedure}.
 The two parties are the central server and the clients.
 From the perspective of the ML models being trained,
-for each iteration,
+in each iteration,
 the global model is distributed to the clients from the central server;
 then, the clients train it locally using local training data;
 after local training,
@@ -247,6 +273,8 @@ and some FL frameworks developed their own training implementations.
     Mobile Devices
 }
 
+\label{sec:scheduling}
+
 The heterogeneity of mobile devices means that FL on mobile devices needs to
 adopt custom scheduling strategies.
 If only \verb|FedAvg| is applied,
@@ -356,6 +384,8 @@ are much less customizable.
 
 \section{Communication Implementations Among Clients and the Server}
 
+\label{sec:communication}
+
 Remote Procedure Call (RPC) is the standard communication method for
 practical FL.
 This is likely due to the flexibility it brings to the FL process.
@@ -406,6 +436,8 @@ Syft uses WebSockets for communication between its network-based workers and
 the server~\cite{Ziller2021}.
 
 \section{On-Device Training for Federated Learning on Mobile Devices}
+
+\label{sec:on-device}
 
 Most FL frameworks cannot support practical FL on mobile devices due to
 the lack of on-device training support.
@@ -567,6 +599,8 @@ or other techniques to be applied so it does not train the whole model.
 % testing some state-of-the-art methods on your selected dataset.)
 
 \section{Discussion}
+
+\label{sec:discussion}
 
 % TODO: Provide an outlook on the development of AI technology in
 % your research area based on your knowledge of your research area and
