@@ -172,14 +172,16 @@ which we delve into in the following.
 
 \subsection{The FedAvg Algorithm}
 
-The pioneering FL algorithm, \verb|FedAvg|,
+\newcommand{\FedAvg}{\texttt{FedAvg}}
+
+The pioneering FL algorithm, \FedAvg{},
 was presented with FL itself~\cite{mcmahan2017communication}.
 It also stands as the most typical FL algorithm,
 with many of its aspects regarded as the standard FL procedures.
 Numerous other FL scheduling strategies are slightly modified version of
-\verb|FedAvg| and preserves its core principles.
+\FedAvg{} and preserves its core principles.
 
-In \verb|FedAvg|,
+In \FedAvg{},
 we assume a fixed number of $K$ clients,
 each client with $k$ a fixed partition $P_k$ of
 the overall training data ($k \in \{1, 2, \dots, K\}$) as their local data.
@@ -208,7 +210,7 @@ a weighted average of local losses:
 \end{equation}
 where $|P_k|$ is the size of partition $P_k$.
 To approach this objective,
-\verb|FedAvg| aggregates the parameters of local models by
+\FedAvg{} aggregates the parameters of local models by
 computing their weighted average:
 \begin{equation}
     w^{(t+1)}=\sum_k \frac{|P_k|}{\sum_k |P_k|}w_k^{(t+1)}.
@@ -217,7 +219,7 @@ computing their weighted average:
 The above iteration step is repeated multiple times until
 model convergence or experiment termination.
 
-\verb|FedAvg| has been demonstrated to be effective and practical
+\FedAvg{} has been demonstrated to be effective and practical
 in a variety of experimental scenarios~\cite{mcmahan2017communication}.
 Specifically, it was benchmarked against \verb|FedSGD|\cite{chen2016revisiting},
 an earlier algorithm developed for distributed ML,
@@ -232,13 +234,13 @@ Mobile devices are a diverse set of intelligent agent hosts compared to
 servers in data centers.
 They exhibit a high degree of heterogeneity,
 encompassing various hardware and software configurations.
-Thus, applying \verb|FedAvg| to FL on mobile devices in practical scenarios
+Thus, applying \FedAvg{} to FL on mobile devices in practical scenarios
 presents unique difficulties.
 
 \subsubsection{Scheduling}
 
 FL on mobile devices require tailored scheduling strategies.
-\verb|FedAvg| waits for each client to complete its training task in
+\FedAvg{} waits for each client to complete its training task in
 each iteration.
 However, mobile clients differ greatly in their computational capabilities,
 leading to variations in training time.
@@ -258,7 +260,7 @@ enhance the efficiency of FL on mobile devices.
 \subsubsection{Communication}
 
 FL on mobile devices faces significant challenges in effective communication.
-In \verb|FedAvg|, all model parameters are transmitted between
+In \FedAvg{}, all model parameters are transmitted between
 clients and the central server.
 In FL on mobile devices,
 clients primarily connect to the server via wireless networks,
@@ -274,7 +276,7 @@ To start with, training ML models on mobile devices has been
 a cutting-edge technology and
 is generally not well-supported across mobile platforms.
 Additionally,
-while \verb|FedAvg| assumes uniformity in model parameter formats known to
+while \FedAvg{} assumes uniformity in model parameter formats known to
 all participating agents,
 mobile on-device training typically employs platform-specific ML frameworks
 that diverge from those on the server.
@@ -295,7 +297,7 @@ specific FL frameworks
 
 The heterogeneity of mobile devices means that FL on mobile devices needs to
 adopt custom scheduling strategies.
-If only \verb|FedAvg| is applied,
+If only \FedAvg{} is applied,
 the most inefficient client would be the bottleneck of
 the whole training process.
 For example, one person with a five-year-old Android phone may determine
@@ -303,7 +305,7 @@ the training efficiency of the whole FL system.
 
 \subsection{Mitigating the Straggler Problem}
 
-The typical settings for the original \verb|FedAvg| can be changed in
+The typical settings for the original \FedAvg{} can be changed in
 various ways for different FL needs.
 For example,
 the sampling of clients can be changed to a function based on
@@ -318,16 +320,19 @@ However, this strategy is not suitable for FL on mobile devices because
 some devices may be inherently slower than others and
 their training data would be wasted.
 
+\newcommand{\FedProx}{\texttt{FedProx}}
+\newcommand{\TFF}{TensorFlow Federated~\cite{tff}}
+
 Most strategies to mitigate the straggler problem involve
 synchronous aggregation.
-\verb|FedProx|~\cite{li2020federated} is proposed to
+\FedProx{}~\cite{li2020federated} is proposed to
 allow for each client to train for a various number of local epochs according to
 their computational abilities.
-\verb|FedProx| has been shown to be much more efficient than
-\verb|FedAvg| in heterogeneous settings.
+\FedProx{} has been shown to be much more efficient than
+\FedAvg{} in heterogeneous settings.
 It has been widely supported in FL frameworks designed for simulations and
 benchmarks, such as
-TensorFlow Federated~\cite{tff},
+\TFF{},
 Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft}, and
 LEAF~\cite{caldas2018leaf}.
 Other similar optimizations include
@@ -349,7 +354,7 @@ FL frameworks like \FedML{} and \Florida{}.
 
 Many FL frameworks are developed for production-level FL simulations to
 experiment with scheduling strategies.
-TensorFlow Federated~\cite{tff} by Google is widely used as infrastructure for
+\TFF{} by Google is widely used as infrastructure for
 its rich features.
 PaddleFL\footnote{\url{
     https://github.com/PaddlePaddle/PaddleFL
@@ -427,7 +432,7 @@ or uses the MQTT protocol\footnote{\url{
 The gRPC Remote Procedure Call\footnote{\url{
     https://grpc.io/
 }.} is another popular choice for FL communication.
-It is used by TensorFlow Federated~\cite{tff} and
+It is used by \TFF{} and
 OpenFL~\cite{patrick2022openfl} for decentralized simulation.
 Flower uses gRPC for the standard implementation of
 its communication protocol, the Flower Protocol~\cite{beutel2020flower}.
@@ -462,7 +467,7 @@ the server~\cite{Ziller2021}.
 Most FL frameworks cannot support practical FL on mobile devices due to
 the lack of on-device training support.
 These examples include simulation-oriented frameworks such as
-TensorFlow Federated~\cite{tff,kholod2020open} and
+\TFF{}~\cite{kholod2020open} and
 LEAF~\cite{caldas2018leaf}.
 PaddlePaddle~\cite{ma2019paddlepaddle}
 only supports inference on Android.
