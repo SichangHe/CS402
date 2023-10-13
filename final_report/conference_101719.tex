@@ -37,28 +37,28 @@
 
 % Briefly introduce your understanding of AI,
 
-The term ``artificial intelligence'' (AI) is used to refer to
-artificial machineries that
-resembles human intelligence in either the way they function or
-the way they behave.
+Artificial intelligence (AI) refers to
+artificial machineries that resembles human intelligence,
+either in terms of their functionality or behavior.
 These machineries, or intelligent agents,
 are not limited to,
-but are often designed and built in the form of computer software programs that
-run on general purpose computer hardware.
+but are commonly implemented in the form of computer software programs
+running on general-purpose computer hardware.
 
-Machine learning (ML), being a significant topic in AI,
-refers to the study of intelligent agents that are able to
-adapt to previously unseen situations based on data from the past.
-The process where an intelligent agent analyzes data from the past to
-prepare its abilities is referred to as ``learning'', or ``training''.
-Such data is respectively referred to as ``training data''.
-Once the training is complete,
-the agent would be able to make predictions or decisions,
-or ``make inferences'',
-when facing situations that may potentially not be previously seen.
-To implement ML, the common approach is to build a model,
-a program that runs some mathematical function,
-and train this model by altering the parameters of the function.
+Machine learning (ML), a significant subfield in AI,
+focuses on the study of intelligent agents that can
+adapt to previously unseen situations based on historical data.
+During this adaptation process,
+an intelligent agent analyzes data from the past to
+prepare its abilities,
+also known as ``learning'', or ``training''.
+The data used is respectively referred to as ``training data''.
+Upon completion of training,
+the agent would be able to make predictions or inferences,
+even when facing previously unobserved situations.
+To implement ML, the common approach is to build models,
+programs that implement mathematical functions.
+These models are then trained by adjusting their function parameters.
 
 % provide an overview of the application of the AI in your research area.
 % For example, you can discuss the current development trend and
@@ -72,48 +72,53 @@ therefore FL is suitable for scenarios where
 the training data cannot be shared to a central agent due to
 privacy restrictions.
 
-The increasing need to train ML models for business,
-the rising awareness of data privacy among individuals,
-and the improvements in government laws contribute to
-the growing applications of FL.
-FL is a compelling option for companies to train ML models using users' data
-without breaking some of the privacy laws.
+The growing demand for ML model training in various business sectors,
+the rising awareness of data privacy concerns among individuals,
+and the improvements in government laws have spurred
+the popularity of FL applications.
+It is a compelling option that enables companies to train ML models using
+user data without violating some of the privacy regulations.
 
-The applications of FL broadly concerns with situations where
-the private data that individual intelligent agent possesses are
-the center of an ML problem,
-which is typically the case with FL use cases on mobile devices.
-Some of the earliest practical applications of FL are proposed
-in~\cite{bonawitz2019towards},
-including selecting and ranking items, suggesting relevant content,
+FL finds relevance in situations where
+individual intelligent agents' private data are at the core of an ML problem,
+a common scenario in FL applications on mobile devices.
+Early practical applications of FL,
+as proposed in~\cite{bonawitz2019towards},
+included item selection and ranking,
+personalized content recommendations,
 and next-word prediction for smart keyboard on mobile devices.
 In all these applications,
 the private data from the users' interactions with
-the keyboard are in the center of the problems.
-Since then, a large portion of practical applications of FL have been
-focusing on applications on mobile devices.
-For example, vision-based product quality inspection~\cite{bharti2022edge} using
+the keyboard are essential for the problems.
+Since then, a significant portion of practical applications of FL have been
+revolved around mobile devices,
+including vision-based product quality inspection~\cite{bharti2022edge} using
 an iOS application and
 SMS spam classification on Android devices~\cite{sriraman2022device}.
+The wide reach to private data from personal mobile devices makes
+them the ideal participants for many FL applications.
 
-Despite the advantages of mobile FL on paper,
-the practical applications of FL on mobile devices are still limited.
-FL is proposed in as early as 2016~\cite{mcmahan2017communication},
-and the first effective and well-known application of FL
+Despite the theoretical advantages of FL on mobile devices,
+the practical deployment of its applications are still limited.
+The concept of FL was introduces as early as 2016~\cite{mcmahan2017communication},
+and the its first effective and widely recognized application
 was announced in 2019~\cite{bonawitz2019towards},
-yet, in 2023, FL applications are still rare to see.
-The reason is that practical FL faces many challenges such as
-privacy security, training efficiency and performance issues,
+yet, even in 2023, practical FL applications on mobile devices remain scarce.
+This scarcity can be attributed to multiple challenges practical FL encounters,
+including privacy and security concerns,
+training efficiency and performance issues,
 and heterogeneity problems~\cite{wen2023survey}.
 
 To approach practical FL on mobile devices,
-we first introduce its general procedure in \ref{sec:general-procedure}.
-Then, we discuss three key challenges it faces—scheduling, communication, and
-on-device training—in \ref{sec:scheduling}, \ref{sec:communication}, and
-\ref{sec:on-device}, respectively.
+we first present a general overview of the FL procedure in
+Section~\ref{sec:general-procedure}.
+Then, we analyze and address three key challenges encountered in
+FL on mobile devices—scheduling (Section~\ref{sec:scheduling}),
+communication (Section~\ref{sec:communication}), and
+on-device training (Section~\ref{sec:on-device}).
 Finally, we discuss additional challenges and
 provide a potential roadmap for practical FL on mobile devices in
-\ref{sec:discussion}.
+Section~\ref{sec:discussion}.
 
 \section{The General Procedure of Federated Learning on Mobile Devices}
 
