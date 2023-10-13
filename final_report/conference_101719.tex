@@ -164,7 +164,7 @@ but they all have a similar basis that we discuss in the following.
 \subsection{The FedAvg Algorithm}
 
 The first FL algorithm ever, \verb|FedAvg|,
-is proposed in~\cite{mcmahan2017communication}.
+is presented when FL itself is proposed~\cite{mcmahan2017communication}.
 It is also the most typical FL algorithm,
 with many of its aspects regarded as the standard FL procedures.
 Many other FL scheduling strategies are only different from \verb|FedAvg| in
@@ -180,7 +180,7 @@ the central server randomly samples $C$ clients for local training.
 Each selected client $k$ obtains the parameters $w^{(t)}$ of
 the latest global model from the server,
 and then train the model locally using their local data $P_k$
-produce a new local model.
+to produce a new local model.
 The objective of this local training process is to minimize the loss $L$ of
 the model with parameters $w_k$ for partition $P_k$:
 \begin{equation}
@@ -193,13 +193,14 @@ each selected client $k$.
 To aggregate the local models and derive a global model that
 is optimized for all training data $\bigcup_k P_k$,
 the objective for the global model is set to
+the weighted average of all local losses:
 \begin{equation}
     \min_{w} \frac{\sum_k |P_k|L(P_k;w)}{\sum_k |P_k|}
 \end{equation}
 where $|P_k|$ is the size of partition $P_k$.
 To approach this objective,
 \verb|FedAvg| aggregates the parameters of local models by
-taking the weighted average:
+taking their weighted average:
 \begin{equation}
     w^{(t+1)}=\sum_k \frac{|P_k|}{\sum_k |P_k|}w_k^{(t+1)}.
 \end{equation}
@@ -219,21 +220,25 @@ Mobile Devices Under the FedAvg Context}
 
 However, FL on mobile devices differs significantly from
 FL in a data center setting.
-Mobile devices are a distinct kind of intelligent agents compared to
+Mobile devices are a distinct kind of intelligent agent compared to
 servers in data centers.
 They are highly heterogeneous,
 composing of a wide range of hardware and software configurations.
 Thus, problems arise when applying \verb|FedAvg| to FL on mobile devices in
 practical scenarios.
 
+\subsubsection{Scheduling}
+
 FL on mobile devices require customized scheduling.
-\verb|FedAvg| waits for each client to finish in each iteration.
-Mobile clients differ greatly in their computational abilities,
+\verb|FedAvg| waits for each client to finish in each iteration,
+but mobile clients differ greatly in their computational abilities,
 therefore some of them are bound to be much slower than others.
 This often causes the problem where
-a small number of clients lag behind all other clients,
+a small number of clients lag behind all other clients and
+becomes the bottleneck of the whole training process,
 known as
 ``the straggler problem''~\cite{chen2020asynchronous,zheng2017asynchronous}.
+
 The straggler problem significantly decrease the training efficiency of FL,
 and are initially mitigated by backup workers~\cite{chen2016revisiting}.
 This mitigation strategy, however,
@@ -241,6 +246,8 @@ is not suitable for FL on mobile devices because
 each client typically possesses a different set of data.
 Novel scheduling strategies are developed to
 make FL on mobile devices more efficient.
+
+\subsubsection{Communication}
 
 FL on mobile devices faces significant challenges in communication.
 \verb|FedAvg| involves transmitting all the model parameters among
@@ -251,11 +258,13 @@ limiting the transmission bandwidth and reliability.
 Various techniques are developed to reduce the amount of data transmitted
 and improve the reliability of the transmission.
 
+\subsubsection{On-Device Training}
+
 The final problem that prevents practical FL on mobile devices is
 the problem of on-device training.
 To start with, the ability to train ML models on mobile devices has been
 bleeding-edge and
-is on-device training is not generally well-supported on any mobile platform.
+is not generally well-supported on any mobile platform.
 Additionally,
 while \verb|FedAvg| assumes that all the model parameters are
 in the same format that is known to all agents involved,
@@ -346,8 +355,10 @@ compare and identify scheduling strategies with the highest performance.
 
 \subsection{Implementing Custom Scheduling Strategies}
 
+\newcommand{\Flower}{Flower~\cite{beutel2020flower}}
+
 FL frameworks such as \FedML{} and
-Flower~\cite{beutel2020flower} leaves the customization of
+\Flower{} leaves the customization of
 scheduling on the client side completely to their users.
 From a programming perspective,
 these frameworks provide interfaces,
@@ -452,7 +463,7 @@ cover all platforms,
 or lacks support for hardware acceleration,
 as shown in Table~\ref{tab:on-device}.
 As an exception,
-Flower~\cite{beutel2020flower} leaves the on-device training implementation to
+\Flower{} leaves the on-device training implementation to
 its users,
 but provides example Android and iOS implementations\footnote{\url{
     https://github.com/adap/flower/tree/main/examples/android-kotlin
@@ -498,9 +509,22 @@ TensorFlow Lite~\cite{beutel2020flower,mathur2021ondevice}.
 In contrast, Apples's Core ML~\cite{coreml} is less popular because
 it is much less user-friendly.
 Core ML is only used by a few FL frameworks such as
-Flower~\cite{beutel2020flower} for its iOS example,
+\Flower{} for its iOS example,
 and is more commonly used for specific applications
 such as this vision-based quality inspector application~\cite{bharti2022edge}.
+
+Unfortunately, adopting first-party ML frameworks causes difficulties when
+the objective is the conduct FL that involve both Android and iOS devices.
+TensorFlow Lite only supports Android and
+Core ML only supports iOS,
+resulting in different ML frameworks being used for each platform.
+These two frameworks produces model parameters in different representations,
+so it is difficult to aggregate these local models into a single global model.
+For example, to use \Flower{} to conduct FL across Android and iOS devices,
+we recently developed a tedious solution that involves
+ProtoBuf manipulation~\cite{he2023fedkit}.
+This limitation means that most FL frameworks using first-party ML frameworks
+will likely have separate training support for Android and iOS.
 
 \subsection{Third-Party Mobile Machine Learning Frameworks}
 
@@ -522,7 +546,11 @@ its custom on-device training implementations for
 both Android and iOS\footnote{\url{
     https://blog.openmined.org/announcing-new-libraries-for-fl-on-web-and-mobile/
 }.}.
-However, their focus is on security and privacy,
+By using a custom implementation,
+Syft ensures that the representations of model parameters are
+consistent across platforms,
+therefore it supports FL settings that involve both Android and iOS devices.
+However, its focus is on security and privacy,
 therefore the implementations greatly sacrifice
 performance~\cite{ryffel2018generic}.
 Furthermore, these custom implementations can only utilize the CPU,
