@@ -698,15 +698,30 @@ extending the reach of FL on mobile devices.
 % provide the corresponding potential solutions or
 % discuss the potential research directions.
 
-On-device training remains the most significant obstacle for
-practical FL on mobile devices.
-Although popular FL frameworks such as
+From its inception in 2016,
+federated learning has made significant progress both in
+theoretical study and in concrete implementation,
+paving its way towards practical applications on mobile devices.
+The advancements in FL scheduling strategies and
+the consolidations of communication protocols have
+enabled FL on a theoretical level.
+
+The popularity of open-source FL frameworks for simulations, benchmarks,
+and even on-device experiments have empowered researchers to
+explore and experiment with FL.
+Popular FL frameworks such as
 PySyft\footnote{\url{
     https://github.com/OpenMined/PySyft/
 }.}~\cite{ryffel2018generic,Ziller2021,hall2021syft}
 have democratized FL research by providing tooling and
 algorithms~\cite{sriraman2022device},
-most of them lack comprehensive support for operations on mobile devices.
+
+However, practical FL on mobile devices still faces significant challenges.
+
+On-device training remains the most significant obstacle for
+practical FL on mobile devices.
+Most of the popular FL frameworks lack comprehensive support for
+operations on mobile devices.
 Among the necessary operations for FL on mobile devices,
 on-device training is the most challenging one because
 implementing it requires either depending on
@@ -716,7 +731,9 @@ or developing home-grown solutions.
 Most FL frameworks choose to use platform-specific ML frameworks,
 while custom training implementations such as
 the Android and iOS implementations of Syft are limited to CPU.
-As a result, it is usually difficult to conduct on-device FL
+As a result, it is usually difficult for anyone who is not
+the operating system vendor themselves (Google and Apple)
+to conduct on-device FL
 on mobile devices using existing FL frameworks.
 
 Security remains a critical concern in FL.
@@ -731,6 +748,7 @@ differential privacy
 (DP)~\cite{dwork2006differential,geyer2017differentially} are
 adopted by many production-level FL frameworks and
 their effectiveness has been demonstrated.
+
 However, the real-world application on mobile devices still faces a fundamental
 issue of trust.
 After the mobile applications obtain the training data,
@@ -738,10 +756,23 @@ there is no obvious way to verify whether the data are used for FL,
 or are in fact sent to a central server.
 Companies may well use FL to cover their direct data collection under the hood.
 
-\printbibliography
+The future of FL on mobile devices is promising,
+but the pace it will progress is uncertain.
+Theoretical research has been active and fruitful,
+letting us to believe that the challenges regarding scheduling, communication,
+and security can be addressed.
+However, the fundamental issue of control in the mobile operating system space
+remains a significant obstacle.
+Therefore, it is very likely that practical FL on mobile devices will
+still be dominated by Google and Apple because of
+their control over on-device training and local data collection.
 
-% TODO: at least 10 references,
-% 50\% references should be published within 5 years,
-% blogs/website/news reports should be less than 10\%.
+At the moment,
+the best we can do is to foster an ever more open FL community to
+sustain the public availability of FL frameworks and
+combat the dominance of operating system vendor with
+their control over FL on mobile devices.
+
+\printbibliography
 
 \end{document}
