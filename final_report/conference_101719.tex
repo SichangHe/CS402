@@ -507,18 +507,22 @@ its network-based workers and the server~\cite{Ziller2021}.
 
 \label{sec:on-device}
 
-Most FL frameworks cannot support practical FL on mobile devices due to
-the lack of on-device training support.
-These examples include simulation-oriented frameworks such as
-\TFF{}~\cite{kholod2020open} and
-LEAF~\cite{caldas2018leaf}.
-PaddlePaddle~\cite{ma2019paddlepaddle}
-only supports inference on Android.
+One of the critical challenges in FL on mobile devices is
+the lack of comprehensive support for on-device training in
+the majority of FL frameworks.
+Notable examples, such as
+\TFF{} and LEAF~\cite{caldas2018leaf},
+are primarily geared towards simulations~\cite{kholod2020open}.
+Even some frameworks targeting business are constrained in their mobile support,
+such as PaddlePaddle~\cite{ma2019paddlepaddle} that
+only offers support inference on Android.
 
-Most FL frameworks that support on-device training on mobile devices do not
-cover all platforms,
-or lacks support for hardware acceleration,
-as shown in Table~\ref{tab:on-device}.
+In the few cases where FL frameworks do support on-device training,
+there are serious limitations.
+These FL frameworks often only support a specific mobile operating system,
+or lacks support for hardware acceleration.
+For instance, Table~\ref{tab:on-device} outlines the functionalities of
+various FL frameworks concerning mobile on-device training.
 As an exception,
 \Flower{} leaves the on-device training implementation to
 its users,
@@ -552,66 +556,72 @@ but provides example Android and iOS implementations\footnote{\url{
 \end{table}
 \subsection{First-Party Mobile Machine Learning Frameworks}
 
-Most FL systems utilize existing mobile ML frameworks to
-support on-device training.
+To address on-device training in FL,
+most FL systems utilize existing mobile ML frameworks.
 Google's TensorFlow Lite~\cite{tensorflow2015-whitepaper,abadi2016tensorflow}
-for Android is
+for Android stands out as
 a popular choice due to its flexibility and
-its maturity for on-device training.
-For example, TensorFlow Lite is used by FLaaS frameworks such as~\cite{
+maturity for on-device training.
+For example, TensorFlow Lite is used in FLaaS frameworks such as~\cite{
     kourtellis2020flaas,katevas2022flaas}
-for their Android support.
-Flower's Android example also uses
-TensorFlow Lite~\cite{beutel2020flower,mathur2021ondevice}.
-In contrast, Apples's Core ML~\cite{coreml} is less popular because
-it is much less user-friendly.
-Core ML is only used by a few FL frameworks such as
+for their Android support,
+and are demonstrated in the Android examples of
+Flower~\cite{beutel2020flower,mathur2021ondevice}.
+In contrast, Apple's Core ML~\cite{coreml} is less prevalent because of
+its relative lack of user-friendliness.
+It is only adopted by a few FL frameworks such as
 \Flower{} for its iOS example,
 and is more commonly used for specific applications
-such as this vision-based quality inspector application~\cite{bharti2022edge}.
+such like vision-based quality inspection on iOS~\cite{bharti2022edge}.
 
-Unfortunately, adopting first-party ML frameworks causes difficulties when
-the objective is the conduct FL that involve both Android and iOS devices.
-TensorFlow Lite only supports Android and
-Core ML only supports iOS,
-resulting in different ML frameworks being used for each platform.
-These two frameworks produces model parameters in different representations,
-so it is difficult to aggregate these local models into a single global model.
+Unfortunately, adopting first-party ML frameworks imposes limitations when
+FL spans both Android and iOS devices.
+TensorFlow Lite and Core ML are exclusive to their respective platforms,
+and produce model parameters in different representations.
+This discrepancy makes it challenging to aggregate local models from
+Android and iOS into a single global model.
 For example, to use \Flower{} to conduct FL across Android and iOS devices,
 we recently developed a tedious solution that involves
-ProtoBuf manipulation~\cite{he2023fedkit}.
-This limitation means that most FL frameworks using first-party ML frameworks
-will likely have separate training support for Android and iOS.
+ProtoBuf manipulation to obtain uniform parameter
+representations~\cite{he2023fedkit}.
+As a result,
+FL frameworks using first-party mobile ML frameworks often have
+separate training support for Android and iOS.
 
 \subsection{Third-Party Mobile Machine Learning Frameworks}
 
-Third-party solutions for these mobile operating systems are less commonly used.
-For example, \FedML{} uses
+Third-party solutions for these mobile operating systems are less commonly used
+for FL on-device training,
+but they offer potential solutions to the platform disparity challenge.
+For example, \FedML{} employs
 the MNN ML framework~\cite{jiang2020mnn,lv2022walle} by Alibaba for
-its on-device training on Android.
+on-device training on Android.
 MNN claims to support Android and iOS and promises lightweight binaries.
-However, in my attempt to use MNN, I found that its documentation is
-severely lacking, outdated, and confusing.
-Also, despite the claim that MNN supports iOS,
-FedML still has not provided an iOS SDK 15 months after they planned
-it\footnote{\url{
+However, MNN's documentation is
+severely lacking, outdated, and confusing\footnote{\url{
+    https://github.com/alibaba/MNN/tree/master/project/ios
+}.}.
+Also, despite their claim to support iOS,
+FedML has delayed providing an iOS SDK for 15 months\footnote{\url{
     https://github.com/FedML-AI/FedML/tree/9aeb0c097efc9ea7037cfe24499c3d61c81c4dca/ios
 }.}.
+These issues indicate a usability problem for third-party solution for
+on-device training in FL.
 
-Notably, Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft} developed
+On the other hand,
+Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft} developed
 its custom on-device training implementations for
 both Android and iOS\footnote{\url{
     https://blog.openmined.org/announcing-new-libraries-for-fl-on-web-and-mobile/
 }.}.
 By using a custom implementation,
-Syft ensures that the representations of model parameters are
-consistent across platforms,
-therefore it supports FL settings that involve both Android and iOS devices.
-However, its focus is on security and privacy,
-therefore the implementations greatly sacrifice
+Syft ensures consistent model parameter representations across platforms,
+therefore it supports FL settings that span both Android and iOS devices.
+However, Syft prioritizes security and privacy over performance,
+therefore these implementations greatly sacrifice
 performance~\cite{ryffel2018generic}.
-Furthermore, these custom implementations can only utilize the CPU,
-therefore they are far from being practical for real-world applications of
+Furthermore, they can only utilize the CPU,
+making them less practical for real-world applications of
 FL on mobile devices.
 Unfortunately, development on
 both implementations for Android and iOS,
@@ -620,9 +630,10 @@ KotlinSyft\footnote{\url{
 }.} and SwiftSyft\footnote{\url{
     https://github.com/OpenMined/SwiftSyft
 }.} has been inactive for over two years,
-indicating that these projects have been abandoned due to a lack of interest.
+demonstrating the lack of interest the develop and maintain
+custom third-party mobile on-device training implementations of FL.
 
-There are third-party on-device training solutions that are worth keeping an key on,
+Some rising third-party on-device training solutions are worth keeping an eye on,
 but the difficulty to interface hardware on different platforms is
 still an major challenge.
 ONNX Runtime~\cite{onnxruntime} by Microsoft aims to
@@ -630,54 +641,47 @@ unify the ML experience on all platforms by
 supporting Open Neural Network Exchange (ONNX),
 an open-source format to represent deep learning
 models~\cite{ParedesdelRio2020}.
-However, its implementations are currently only utilizing CPUs,
-leaving out the massive performance improvements by the hardware acceleration
-from GPUs and NPUs on the processors of modern mobile devices.
-This limitation severely restricts its practical usage.
+However, its current implementations is limited to CPU utilization,
+missing out on the massive performance improvements offered by
+the hardware acceleration
+from GPUs and NPUs on modern mobile devices.
+This limitation restricts practical usage of ONNX Runtime.
 
 \subsection{Not-For-Mobile Solutions}
 
-Some systems choose to adopt solutions that are not specifically designed for
+Some systems opt for solutions not specifically designed for
 mobile ML,
-including web-based and UNIX-environment-based solutions.
+including web-based and UNIX-environment-based options.
 For example,
 TensorFlow.js is capable of running inside a browser on mobile devices or
 a webview inside mobile applications~\cite{smilkov2019tensorflow}.
-The usage of TensorFlow.js by~\cite{sriraman2022device} resulted in
-difficulties in testing,
-but~\cite{palanisamy2021spliteasy} shows the advantages of TensorFlow.js on iOS
-by integrating it into a React Native application for split learning.
+While this approach posed testing difficulties due to
+the language limitations of JavaScript~\cite{sriraman2022device},
+it is also showcased as advantageous when integrated into
+a React Native application for split learning on
+iOS~\cite{palanisamy2021spliteasy}.
 Another example is FedScale~\cite{lai2022fedscale},
-which uses Termux, a UNIX console on Android,
+which employs Termux, a UNIX console on Android,
 to run TensorFlow directly.
-FedScale's solution is only suitable for its benchmarking purposes because
-it requires the Termux application to run and
-cannot be embedded.
+However, FedScale's approach is limited to benchmarking purposes and
+cannot be embedded into other mobile applications in practice.
 
 \subsection{Model Personalization}
 
-Model personalization is another popular variant of FL.
-While FL generally aims to train a global model,
-in model personalization,
-local models are adjusted using each user's data to
-adapt to the each specific user.
-Therefore, model personalization excels general FL when
-facing high statistical heterogeneity among the users~\cite{kulkarni2020survey}.
-Model personalization also reduces some restrictions and difficulties that
-general FL faces.
-For example,
-we usually aim to update most or all layers in general FL,
-but it is common to only update the last layer of neural networks in
+In addition to traditional FL,
+model personalization has emerged as a prominent variant.
+While traditional FL focuses on training a global model,
+model personalization tailors local models to each user's specific data,
+making it well-suited for scenarios with
+high statistical heterogeneity among users~\cite{kulkarni2020survey}.
+Model personalization also alleviates some of
+the restrictions and difficulties faced by traditional FL,
+such as the need to train entire deep neural networks on mobile devices.
+Instead, it often involves updating only the last layer of neural networks in
 transfer learning,
-a type of model personalization.
-By only updating the last layer,
-model personalization can remain efficient even when
-the neural network used is deep;
-in contrast, the computational complexity in back propagation for
-deep neural networks makes it unsuitable for general FL on mobile devices.
-Therefore, general FL either requires smaller models to be used,
-or partial updates,
-or other techniques to be applied so it does not train the whole model.
+maintaining efficiency even with deep neural networks.
+Therefore, model personalization can allow for larger models to be used,
+extending the reach of FL on mobile devices.
 
 % (You can use table to summarize the features of existing methods;
 % or you can conduct the comparative study by
