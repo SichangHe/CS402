@@ -419,75 +419,89 @@ server aggregation functions.
 While these FLaaS solutions also provide web GUI for convenience,
 their customizability is often limited.
 
-\subsection{Communication Implementations Among Mobile Clients and the Server}
+\section{Communication Strategies in Federated Learning on Mobile Devices}
 
 \label{sec:communication}
 
-The restricted network connectivity on mobile devices necessitates
-efficient and reliable communication in FL.
-To reduce the amount of data transmitted,
-technique such as only transmitting the difference of the model parameters
-have long been applied\footnote{\url{
-    https://ai.googleblog.com/2017/04/federated-learning-collaborative.html
+Efficient and reliable communication is paramount in FL on mobile devices,
+where network connectivity is often constrained.
+Various techniques and protocols are employed to
+optimize communication between mobile clients and the central server.
+
+\subsection{Minimizing Data Transmission}
+
+To alleviate the strain on mobile networks,
+FL systems often employ strategies to reduce the amount of data transmitted.
+One such approach involves transmitting only
+the difference between the latest local model parameters and
+the last global model\footnote{\url{
+        https://ai.googleblog.com/2017/04/federated-learning-collaborative.html
 }.}.
 Furthermore,
-Frameworks like Hermes~\cite{li2021hermes} have been developed to
-reduce the amount of transmitted model parameter data by
-leveraging sub-networks.
-However, advanced communication techniques are usually difficult to
-implement on mobile devices because
-mobile development environments are much less friendly than
-the ones researchers interface in theoretical research.
+Frameworks like Hermes~\cite{li2021hermes} take this concept further by
+leveraging sub-networks to minimize the transmitted model parameter data.
+However, implementing advanced communication techniques on mobile devices
+are usually challenging due to the less accommodating nature of
+mobile development environments compared to the theoretical research settings.
+
+\subsection{Practical Implementations of the Communication Among Mobile Clients
+    and the Server
+}
 
 In practice,
-Remote Procedure Call (RPC) is the standard communication method for
+Remote Procedure Call (RPC) is the standard protocol of communication in
 practical FL.
-This is likely due to the flexibility it brings to the FL process.
-Under an RPC framework,
-clients and the server can transfer instructions for the other side to execute.
-Therefore, RPC allows for straightforward customization of
-FL schedule strategies.
-
-\FedML{} uses an abstract communication layer on top of
-the concrete implementations.
-These implementations either use the message passing interface
-(MPI)\footnote{\url{
-    https://www.mpi-forum.org/
-}.} over HTTP,
-or uses the MQTT protocol\footnote{\url{
-    https://mqtt.org/mqtt-specification/
-}.}.
+RPC offers flexibility by enabling clients and the server to
+exchange instructions for execution on the other side,
+facilitating customization of FL scheduling strategies.
 
 The gRPC Remote Procedure Call\footnote{\url{
     https://grpc.io/
-}.} is another popular choice for FL communication.
-It is used by \TFF{} and
-OpenFL~\cite{patrick2022openfl} for decentralized simulation.
-Flower uses gRPC for the standard implementation of
+}.} is a popular choice for FL communication.
+It is employed by \TFF{} and
+OpenFL~\cite{patrick2022openfl} for decentralized simulations.
+\Flower{} uses gRPC for the standard implementation of
 its communication protocol, the Flower Protocol~\cite{beutel2020flower}.
-And, \Florida{} allows users to choose between gRPC and REST.
+\Florida{} provides users the flexibility to choose between
+REST~\cite{Richards2006} or gRPC.
 
-gRPC accompanied by protocol buffers (ProtoBuf)\footnote{\url{
+The combination of gRPC and protocol buffers (ProtoBuf)\footnote{\url{
     https://protobuf.dev/
-}.} is desirable for communication between FL mobile participants for
-several reasons.
-ProtoBuf is a compact binary representation for data structures,
+}.} offers several advantages for communication in FL on mobile devices.
+ProtoBuf is a compact binary data structures representation,
 allowing for efficient transmission~\cite{popic2016performance},
-therefore it is suitable for mobile devices that
-are often under restricted network conditions.
+which is particularly valuable under mobile devices'
+often constrained network conditions.
+Additionally,
 gRPC and ProtoBuf are language-agnostic and
-provide a wide range of programming language support,
-facilitating its adoption on different platforms~\cite{araujo2020performance}.
-It is also based on HTTP/2,
-therefore it can usually bypass mobile devices' restricted firewalls and
-pass through proxies~\cite{araujo2020performance}.
+provide support for a wide range of programming languages,
+facilitating their adoption on different platforms~\cite{araujo2020performance}.
+As gRPC is based on HTTP/2,
+it can usually bypass mobile devices' restricted firewalls and
+pass through proxies~\cite{araujo2020performance},
+and offers guaranteed delivery from TCP.
 Being connection-based and bidirectional,
-gRPC also allows the server to recognize
-which clients have lost their connections and
-push instructions to the clients.
+gRPC also allows the server to actively push instructions to the clients and
+identify clients that have lost connection.
+Features such as compact representation and bidirectional communication are
+not gRPC-exclusive,
+but are common in other RPCs adopted in practical FL,
+making gRPC a representative example.
 
-Syft uses WebSockets for communication between its network-based workers and
-the server~\cite{Ziller2021}.
+Besides gRPC, other RPC-based communication protocols are
+also adopted by FL frameworks.
+\FedML{} adopts an abstract communication layer that interfaces with
+the concrete implementations.
+These implementations either utilize the message passing interface
+(MPI)\footnote{\url{
+    https://www.mpi-forum.org/
+}.} over HTTP,
+or employ the MQTT protocol\footnote{\url{
+    https://mqtt.org/mqtt-specification/
+}.}.
+Syft, another prominent player in FL,
+opts for WebSockets to facilitate communication between
+its network-based workers and the server~\cite{Ziller2021}.
 
 \section{On-Device Training for Federated Learning on Mobile Devices}
 
