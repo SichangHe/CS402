@@ -353,6 +353,8 @@ the training process can adopt an
 asynchronous approach~\cite{chilimbi2014project,zhu2022online,huba2022papaya}.
 Asynchronous aggregation has been adopted in
 FL frameworks such as \FedML{} and \Florida{}.
+Semi-asynchronous FL techniques have also been explored,
+such as in~\cite{sun2022fedsea}.
 
 \subsection{Testing Scheduling Strategies}
 
@@ -395,7 +397,10 @@ and message handling\footnote{\url{
 }.}.
 These interfaces greatly increases the flexibility for the users to
 design and implement custom scheduling strategies,
-but the responsibility of implementing strategies can sometimes be burdening.
+but the responsibility of implementing these strategies can
+sometimes be burdening,
+especially considering that the mobile clients often need to
+be implemented in Java or Swift.
 
 On the server side,
 while the customizations are typically more accessible with
@@ -414,10 +419,27 @@ server aggregation functions.
 While these FLaaS solutions also provide web GUI for convenience,
 their customizability is often limited.
 
-\section{Communication Implementations Among Clients and the Server}
+\subsection{Communication Implementations Among Mobile Clients and the Server}
 
 \label{sec:communication}
 
+The restricted network connectivity on mobile devices necessitates
+efficient and reliable communication in FL.
+To reduce the amount of data transmitted,
+technique such as only transmitting the difference of the model parameters
+have long been applied\footnote{\url{
+    https://ai.googleblog.com/2017/04/federated-learning-collaborative.html
+}.}.
+Furthermore,
+Frameworks like Hermes~\cite{li2021hermes} have been developed to
+reduce the amount of transmitted model parameter data by
+leveraging sub-networks.
+However, advanced communication techniques are usually difficult to
+implement on mobile devices because
+mobile development environments are much less friendly than
+the ones researchers interface in theoretical research.
+
+In practice,
 Remote Procedure Call (RPC) is the standard communication method for
 practical FL.
 This is likely due to the flexibility it brings to the FL process.
