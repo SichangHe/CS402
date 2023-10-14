@@ -295,117 +295,124 @@ specific FL frameworks
 
 \label{sec:scheduling}
 
-The heterogeneity of mobile devices means that FL on mobile devices needs to
-adopt custom scheduling strategies.
-If only \FedAvg{} is applied,
-the most inefficient client would be the bottleneck of
-the whole training process.
-For example, one person with a five-year-old Android phone may determine
-the training efficiency of the whole FL system.
+The inherent heterogeneity of mobile devices necessitates
+the adoption of tailored scheduling strategies for FL.
+With the conventional FL setup like \FedAvg{} applied,
+the stragglers would dictate the training efficiency of the whole system.
+Moreover, the data heterogeneity among the clients also poses a challenge in
+model convergence~\cite{zhang2022fedada}.
+Therefore, customizations must be applied on scheduling strategies.
+These customizations need to be first developed,
+then tested and implemented in practice under FL frameworks.
 
-\subsection{Mitigating the Straggler Problem}
+\subsection{Developing Scheduling Strategies}
 
-The typical settings for the original \FedAvg{} can be changed in
-various ways for different FL needs.
+The typical settings for the original \FedAvg{} can be modified in
+various ways to cater to diverse FL requirements.
 For example,
-the sampling of clients can be changed to a function based on
+client selection can be changed to a function based on
 each client's properties instead of being random,
-and the number of clients sampled each iteration could vary.
-Also, the aggregation of the local parameters could use another function.
+and the number of clients sampled per iteration can be made variable.
+Similarly, alternative aggregation methods for local parameters
+may be employed.
 
-Some strategies to mitigate the straggler problem have been proposed.
-A timeout could be applied to drop
-straggling devices~\cite{bonawitz2019towards}.
-However, this strategy is not suitable for FL on mobile devices because
-some devices may be inherently slower than others and
-their training data would be wasted.
+Various strategies have been proposed to address the straggler problem.
+One approach involves implementing a timeout mechanism to exclude
+straggler devices~\cite{bonawitz2019towards}.
+However, this approach is not suitable for FL on mobile devices because
+the inherent low performance of some devices would render
+their training data permanently excluded and wasted.
 
 \newcommand{\FedProx}{\texttt{FedProx}}
 \newcommand{\TFF}{TensorFlow Federated~\cite{tff}}
 
-Most strategies to mitigate the straggler problem involve
+Many strategies to mitigate the heterogeneity problem rely on
 synchronous aggregation.
-\FedProx{}~\cite{li2020federated} is proposed to
-allow for each client to train for a various number of local epochs according to
-their computational abilities.
-\FedProx{} has been shown to be much more efficient than
-\FedAvg{} in heterogeneous settings.
+For instance,
+\FedProx{}~\cite{li2020federated}
+allows clients to train for different numbers of local epochs according to
+their computational capabilities.
+In heterogeneous settings,
+\FedProx{} has demonstrated superior efficiency compared to \FedAvg{} .
 It has been widely supported in FL frameworks designed for simulations and
 benchmarks, such as
 \TFF{},
 Syft~\cite{ryffel2018generic,Ziller2021,hall2021syft}, and
 LEAF~\cite{caldas2018leaf}.
-Other similar optimizations include
+Other similar optimizations such as
 \verb|ef-signSGD|~\cite{karimireddy2019error},
 \verb|FedAdam|~\cite{reddi2020adaptive},
-and~\cite{luo2021cost}.
+and~\cite{luo2021cost} have also been explored.
 
 \newcommand{\FedML}{FedML~\cite{he2020fedml}}
 \newcommand{\Florida}{Project Florida~\cite{madrigal2023project}}
 
-On the other hand,
-instead of using strict iterations,
-the training process could also be
-asynchronous~\cite{chilimbi2014project,zhu2022online,huba2022papaya}.
+Alternatively,
+as opposed to strict iterations,
+the training process can adopt an
+asynchronous approach~\cite{chilimbi2014project,zhu2022online,huba2022papaya}.
 Asynchronous aggregation has been adopted in
-FL frameworks like \FedML{} and \Florida{}.
+FL frameworks such as \FedML{} and \Florida{}.
 
-\subsection{Testing FL Scheduling Strategies}
+\subsection{Testing Scheduling Strategies}
 
-Many FL frameworks are developed for production-level FL simulations to
-experiment with scheduling strategies.
-\TFF{} by Google is widely used as infrastructure for
-its rich features.
+Numerous FL frameworks have been developed for
+conducting production-level FL simulations and
+experimentation with scheduling strategies.
+Google's \TFF{} is widely adopted as infrastructure for simulation because of
+its comprehensive features.
 PaddleFL\footnote{\url{
     https://github.com/PaddlePaddle/PaddleFL
 }.} in PaddlePaddle~\cite{ma2019paddlepaddle} by Baidu,
 FATE~\cite{liu2021fate} by Tencent, and
 OpenFL~\cite{patrick2022openfl} by Intel
-are similarly designed for
-production-grade FL simulations.
+serve similar purpose,
+offering environments for production-grade FL simulations.
 Additionally,
-FL benchmarks such as FedScale~\cite{lai2022fedscale} are also developed to
-compare and identify scheduling strategies with the highest performance.
+FL benchmarks such as FedScale~\cite{lai2022fedscale} are instrumental in
+comparing and identifying scheduling strategies with superior performance.
 
-\subsection{Implementing Custom Scheduling Strategies}
+\subsection{Implementing Custom Scheduling Strategies in Practice}
 
 \newcommand{\Flower}{Flower~\cite{beutel2020flower}}
 
-FL frameworks such as \FedML{} and
-\Flower{} leaves the customization of
-scheduling on the client side completely to their users.
+In FL frameworks such as \FedML{} and \Flower{},
+the customization of scheduling strategies on the client side is
+left entirely to the users.
 From a programming perspective,
 these frameworks provide interfaces,
 also known as abstract classes,
 for custom clients to implement.
-These interfaces usually include methods for
-training the model locally,
-getting and setting the model parameters,
-and responding to messages\footnote{\url{
-    https://github.com/FedML-AI/FedML/blob/master/android/fedmlsdk/src/main/java/ai/fedml/edge/FedEdgeApi.java
+These interfaces typically encompasses methods for
+local model training,
+model parameter retrieval and modification,
+and message handling\footnote{\url{
+    https://github.com/FedML-AI/FedML/blob/9aeb0c097efc9ea7037cfe24499c3d61c81c4dca/android/fedmlsdk/src/main/java/ai/fedml/edge/FedEdgeApi.java
 }.}\footnote{\url{
-    https://github.com/adap/flower/blob/main/src/kotlin/flwr/src/main/java/dev/flower/android/Client.kt
+    https://github.com/adap/flower/blob/4df413f8a1696f643fdde27bf7bac8c33b623f56/src/kotlin/flwr/src/main/java/dev/flower/android/Client.kt
 }.}\footnote{\url{
-    https://github.com/adap/flower/blob/main/src/kotlin/flwr/src/main/java/dev/flower/android/Client.kt
+    https://github.com/adap/flower/blob/4df413f8a1696f643fdde27bf7bac8c33b623f56/src/swift/flwr/Sources/Flower/Client/Client.swift
 }.}.
-These interfaces greatly increases the flexibility to
-implement custom scheduling strategies when using these FL frameworks,
-but they sometimes also leave the burden of implementing them to the users.
+These interfaces greatly increases the flexibility for the users to
+design and implement custom scheduling strategies,
+but the responsibility of implementing strategies can sometimes be burdening.
 
-While the implementation of the server is usually easily customizable with
+On the server side,
+while the customizations are typically more accessible with
 open-source frameworks,
-the rise of FL as a service (FLaaS)
-adds nuances to the server side.
-These FLaaS providers manage their own proprietary servers that
-are only accessible to the users using opaque APIs or GUIs.
-\FedML{}, for example,
-offers a set of Python APIs to customize the server implementation,
-and allows users to upload their server implementations using a web interface.
-\Florida{} is another production-ready FLaaS by Microsoft,
-and it supports Python scripts or .NET executables to be uploaded for
-server aggregation function.
-Both of these FLaaS also provide web GUI interfaces that
-are much less customizable.
+the emergence of FL as a service (FLaaS)
+introduces complexity.
+These FLaaS providers manage proprietary servers,
+often accessible to the users through opaque APIs or
+graphical user interfaces (GUIs).
+For instance, \FedML{}
+offers a set of Python APIs for server customization
+and enables users to upload their server implementations via a web GUI.
+\Florida{}, another production-ready FLaaS by Microsoft,
+supports the uploading of Python scripts or .NET executables for
+server aggregation functions.
+While these FLaaS solutions also provide web GUI for convenience,
+their customizability is often limited.
 
 \section{Communication Implementations Among Clients and the Server}
 
