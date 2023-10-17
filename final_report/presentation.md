@@ -32,7 +32,7 @@ can adapt to previously unseen situations based on historical data.
 <!-- slide -->
 ## Federated Learning (FL)
 
-![FL](federated_learning.png)
+<img alt="FL" src="federated_learning.png" height="500" />
 
 <small>"What is Federated Learning" on YouTube</small>
 
@@ -55,13 +55,12 @@ can adapt to previously unseen situations based on historical data.
 - On-device training
 - Discussion
 
-
 <!-- slide -->
 ## Why FL on Mobile Devices
 
 - Demand for ML training data
 - Privacy regulations
-- Core of ML problem
+- Mobile data at the core of ML problems
 
 <!-- slide -->
 ## Why *Not* FL on Mobile Devices
@@ -88,16 +87,17 @@ can adapt to previously unseen situations based on historical data.
 
 <!-- slide -->
 
-![FL](federated_learning.png)
+<img alt="FL" src="federated_learning.png" height="500" />
+
+<small>"What is Federated Learning" on YouTube</small>
 
 <!-- slide -->
 
-Main problems
+Main tasks
 
 - Scheduling
 - Communication
 - On-device training
-- Discussion
 
 <!-- slide -->
 
@@ -108,7 +108,7 @@ Main problems
 
 <!-- slide -->
 
-Main problems
+Main tasks
 
 - Scheduling: straggler problem
 - Communication: network constraints
@@ -317,5 +317,8 @@ Cons
 ## Summary
 
 - Introduction to federated learning on mobile devices
-- Challenges & solutions-
-    - scheduling, communication, on-device training
+- Challenges & solutions
+    - Scheduling
+    - Communication
+    - On-device training
+- Thoughts: combat vendor monopoly & promote openness
