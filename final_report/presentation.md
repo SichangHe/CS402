@@ -106,7 +106,7 @@ Main problems
 Main problems
 
 - Scheduling: straggler problem
-- Communication: network limitations
+- Communication: network constraints
 - On-device training: parameter alignment
 
 <!-- slide -->
@@ -161,3 +161,49 @@ Main problems
 #### FLaaS Server
 
 ![FedML customization](fedml_customization.png)
+
+<!-- slide -->
+- Basic concepts
+- Opportunities & challenges
+- General procedure
+- Scheduling
+
+---
+
+- Communication
+- On-device training
+
+<!-- slide -->
+### Communication for Mobile Devices
+
+<img alt="Smartphone network" src="phone_and_wifi.png" height="600" />
+
+<!-- slide -->
+### Minimizing Data Transmission
+
+- Transmit parameter difference
+- Sub-networks
+
+Challenge: mobile development
+
+<!-- slide -->
+### Practical Implementations
+
+Remote Procedure Call (RPC):
+execute code by sending messages
+
+- Easier customization
+
+<!-- slide -->
+- **gRPC**
+- REST
+- Message passing interface (MPI)
+- MQTT
+- WebSocket
+
+#### Why gRPC (generalizable)
+
+- Small transmission size with Protobuf
+- Language support
+- Bypass firewalls & proxies
+- Connection-based & bidirectional
