@@ -15,6 +15,7 @@ Steven Hé (Sīchàng)
 - Scheduling
 - Communication
 - On-device training
+- Discussion
 
 <!-- slide -->
 ## Artificial Intelligence (AI)
@@ -52,6 +53,8 @@ can adapt to previously unseen situations based on historical data.
 - Scheduling
 - Communication
 - On-device training
+- Discussion
+
 
 <!-- slide -->
 ## Why FL on Mobile Devices
@@ -77,6 +80,7 @@ can adapt to previously unseen situations based on historical data.
 - Scheduling
 - Communication
 - On-device training
+- Discussion
 
 <!-- slide -->
 
@@ -93,6 +97,7 @@ Main problems
 - Scheduling
 - Communication
 - On-device training
+- Discussion
 
 <!-- slide -->
 
@@ -119,6 +124,7 @@ Main problems
 - Scheduling
 - Communication
 - On-device training
+- Discussion
 
 <!-- slide -->
 
@@ -172,6 +178,7 @@ Main problems
 
 - Communication
 - On-device training
+- Discussion
 
 <!-- slide -->
 ### Communication for Mobile Devices
@@ -219,6 +226,7 @@ execute code by sending messages
 ---
 
 - On-device training
+- Discussion
 
 <!-- slide -->
 ### Comparison among FL Frameworks
@@ -269,3 +277,45 @@ Cons
 
 - Most used
 - Partial model update
+
+<!-- slide -->
+- Basic concepts
+- Opportunities & challenges
+- General procedure
+- Scheduling
+- Communication
+- On-device training
+
+---
+
+- Discussion
+
+<!-- slide -->
+## Mobile FL Timeline
+
+| Year | Event
+| - | -
+| 2016 | Born
+| 2019 | First effective app
+| 2021 | Wide-spread simulation support
+| 2023 | Wide-spread Mobile support?
+| 20?? | Wide-spread adoption?
+
+<!-- slide -->
+- Advancements in scheduling strategies & communication
+- #1 Roadblock: on-device training
+- Security: protections e.g. HE, SMC, DP
+
+<!-- slide -->
+### Closing Thoughts
+
+- Mobile OS vendor monopoly
+- Mask for direct data collection
+- Key: open community
+
+<!-- slide -->
+## Summary
+
+- Introduction to federated learning on mobile devices
+- Challenges & solutions-
+    - scheduling, communication, on-device training
